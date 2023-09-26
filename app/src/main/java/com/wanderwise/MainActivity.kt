@@ -3,7 +3,6 @@ package com.wanderwise
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,8 +20,16 @@ class MainActivity : ComponentActivity() {
                         loginScreen.Display()
                     }
                     composable("tripScreen") {
-                        val tripScreen = TripScreenActivity()
+                        val tripScreen = TripScreenActivity(navController)
                         tripScreen.Display()
+                    }
+                    composable("cityListScreen") {
+                        val cityListScreen = CityListScreenActivity(navController)
+                        cityListScreen.Display()
+                    }
+                    composable("cityActivitiesScreen") {
+                        val cityActivitiesScreen = CityActivitiesScreenActivity(navController)
+                        cityActivitiesScreen.Display()
                     }
                 }
             }
