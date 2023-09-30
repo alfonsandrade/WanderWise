@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">WanderWise</string>
     <string name="name">Alfons</string>
+    <string name="login_icon_description">Login Screen Icon</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 </resources>

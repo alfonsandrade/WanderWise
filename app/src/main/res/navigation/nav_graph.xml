@@ -1,0 +1,13 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginScreenFragment">
+
+    <fragment
+        android:id="@+id/loginScreenFragment"
+        android:name="com.wanderwise.LoginScreenFragment"
+        android:label="Login Screen"
+        tools:layout="@layout/activity_login">
+    </fragment>
+</navigation>
