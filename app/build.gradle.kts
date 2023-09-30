@@ -73,4 +73,11 @@ dependencies {
     implementation("androidx.compose.material:material")
     implementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.navigation:navigation-compose")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha07")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha07")
+    val appcompat_version = "1.6.1"
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    // For loading and tinting drawables on older versions of the platform
+    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+
 }
