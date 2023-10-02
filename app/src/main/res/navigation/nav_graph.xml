@@ -26,18 +26,28 @@
 
     <fragment
         android:id="@+id/citySelectionScreenFragment"
-        android:name="com.wanderwise.CitySelectionScreenFragment"
+        android:name="com.wanderwise.CitySelectionFragment"
         android:label="City Selection"
         tools:layout="@layout/activity_city_selection" >
         <action
-            android:id="@+id/action_to_citySelection"
-            app:destination="@id/citySelectionScreenFragment" />
+            android:id="@+id/action_to_activity_selection"
+            app:destination="@id/activitySelectionScreenFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/activitySelectionScreenFragment"
-        android:name="com.wanderwise.activitySelectionScreenFragment"
+        android:name="com.wanderwise.ActivitySelectionFragment"
         android:label="Activity Selection"
-        tools:layout="@layout/activity_activity_selection" />
+        tools:layout="@layout/activity_activity_selection" >
+        <action
+            android:id="@+id/action_to_edit_activity"
+            app:destination="@id/action_to_edit_activity" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/activityEditionFragment"
+        android:name="com.wanderwise.ActivityEditionFragment"
+        android:label="Activity Selection"
+        tools:layout="@layout/activity_activity_selection" >
+    </fragment>
 </navigation>
