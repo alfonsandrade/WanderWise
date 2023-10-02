@@ -5,4 +5,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="city">City</string>
+    <string name="trip">Trip</string>
+    <string name="activity">Activity</string>
 </resources>

@@ -7,7 +7,37 @@
     <fragment
         android:id="@+id/loginScreenFragment"
         android:name="com.wanderwise.LoginScreenFragment"
-        android:label="Login Screen"
+        android:label="Login"
         tools:layout="@layout/activity_login">
+        <action
+            android:id="@+id/action_to_tripSelection"
+            app:destination="@id/tripSelectionScreenFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/tripSelectionScreenFragment"
+        android:name="com.wanderwise.TripSelectionScreenFragment"
+        android:label="City Selection"
+        tools:layout="@layout/activity_trip_selection" >
+        <action
+            android:id="@+id/action_to_citySelection"
+            app:destination="@id/citySelectionScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/citySelectionScreenFragment"
+        android:name="com.wanderwise.CitySelectionScreenFragment"
+        android:label="City Selection"
+        tools:layout="@layout/activity_city_selection" >
+        <action
+            android:id="@+id/action_to_citySelection"
+            app:destination="@id/citySelectionScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/activitySelectionScreenFragment"
+        android:name="com.wanderwise.activitySelectionScreenFragment"
+        android:label="Activity Selection"
+        tools:layout="@layout/activity_activity_selection" />
+
 </navigation>
