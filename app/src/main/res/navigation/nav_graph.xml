@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/tripSelectionScreenFragment"
         android:name="com.wanderwise.TripSelectionScreenFragment"
-        android:label="City Selection"
+        android:label="Trip Selection"
         tools:layout="@layout/activity_trip_selection" >
         <action
             android:id="@+id/action_to_citySelection"
