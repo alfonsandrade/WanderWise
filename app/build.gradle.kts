@@ -75,9 +75,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha12")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha12")
 
-    val appcompat_version = "1.6.1"
-    implementation("androidx.appcompat:appcompat:$appcompat_version")
-    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+    val appcompatVersion = "1.6.1"
+    implementation("androidx.appcompat:appcompat:$appcompatVersion")
+    implementation("androidx.appcompat:appcompat-resources:$appcompatVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
 

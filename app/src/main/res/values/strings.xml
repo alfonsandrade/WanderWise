@@ -9,4 +9,11 @@
     <string name="trip">Trip</string>
     <string name="activity">Activity</string>
     <string name="add_new_trip">Add new trip</string>
+    <string name="edit_existing_trips">Edit existing trips</string>
+    <string name="trip_name">Trip Name</string>
+    <string name="optional_description">Optional Description</string>
+    <string name="submit">SUBMIT</string>
+    <string name="hotel_inn">Hotel / Inn</string>
+    <string name="city_name">City Name</string>
+    <string name="brief_of_the_trip">Brief of the trip</string>
 </resources>

@@ -6,12 +6,13 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
+class NewTripFragment : Fragment(R.layout.activity_new_trip) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val addCityBtn: Button = view.findViewById(R.id.addCityBtn)
-        addCityBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_to_newCity)
+        val submitBtn: Button = view.findViewById(R.id.submitBtn)
+
+        submitBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_to_tripSelection)
         }
     }
 }

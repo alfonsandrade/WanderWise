@@ -22,6 +22,19 @@
         <action
             android:id="@+id/action_to_citySelection"
             app:destination="@id/citySelectionScreenFragment" />
+        <action
+            android:id="@+id/action_to_newTrip"
+            app:destination="@id/newTripScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newTripScreenFragment"
+        android:name="com.wanderwise.NewTripFragment"
+        android:label="New Trip"
+        tools:layout="@layout/activity_new_trip" >
+        <action
+            android:id="@+id/action_to_tripSelection"
+            app:destination="@id/tripSelectionScreenFragment" />
     </fragment>
 
     <fragment
@@ -32,6 +45,19 @@
         <action
             android:id="@+id/action_to_activity_selection"
             app:destination="@id/activitySelectionScreenFragment" />
+        <action
+            android:id="@+id/action_to_newCity"
+            app:destination="@id/newCityScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newCityScreenFragment"
+        android:name="com.wanderwise.NewCityFragment"
+        android:label="New City"
+        tools:layout="@layout/activity_new_city" >
+        <action
+            android:id="@+id/action_to_citySelection"
+            app:destination="@id/citySelectionScreenFragment" />
     </fragment>
 
     <fragment

@@ -19,7 +19,7 @@
         android:id="@+id/textView"
         android:layout_width="232dp"
         android:layout_height="39dp"
-        android:text="Constraint Try"
+        android:text="WanderWise"
         android:textAlignment="center"
         android:textColor="#050505"
         android:textSize="34sp"
