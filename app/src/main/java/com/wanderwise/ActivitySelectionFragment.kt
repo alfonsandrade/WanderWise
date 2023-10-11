@@ -9,9 +9,10 @@ import androidx.navigation.fragment.findNavController
 class ActivitySelectionFragment: Fragment(R.layout.activity_activity_selection){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activityButton: Button = view.findViewById(R.id.activity_button)
-        activityButton.setOnClickListener {
-            findNavController().navigate(R.id.action_to_citySelection)
+        val newActBtn: Button = view.findViewById(R.id.addActivityBtn)
+
+        newActBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_to_new_activity)
         }
     }
 }

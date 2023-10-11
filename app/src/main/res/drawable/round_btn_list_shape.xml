@@ -9,8 +9,8 @@
         </shape>
     </item>
     <item
-        android:drawable="@drawable/menu_3_bar_icon"
-        android:width="50dp"
-        android:height="50dp"
+        android:drawable="@drawable/list_3_bar"
+        android:width="30dp"
+        android:height="30dp"
         android:gravity="center" />
 </layer-list>

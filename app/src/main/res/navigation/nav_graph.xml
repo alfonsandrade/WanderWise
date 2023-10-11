@@ -68,6 +68,19 @@
         <action
             android:id="@+id/action_to_edit_activity"
             app:destination="@id/action_to_edit_activity" />
+        <action
+            android:id="@+id/action_to_new_activity"
+            app:destination="@id/newActivityScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newActivityScreenFragment"
+        android:name="com.wanderwise.NewActivityFragment"
+        android:label="New Activity"
+        tools:layout="@layout/activity_new_activity" >
+        <action
+            android:id="@+id/action_to_activity_selection"
+            app:destination="@id/activitySelectionScreenFragment" />
     </fragment>
 
     <fragment

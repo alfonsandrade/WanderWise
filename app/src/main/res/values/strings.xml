@@ -10,10 +10,13 @@
     <string name="activity">Activity</string>
     <string name="add_new_trip">Add new trip</string>
     <string name="edit_existing_trips">Edit existing trips</string>
-    <string name="trip_name">Trip Name</string>
-    <string name="optional_description">Optional Description</string>
+    <string name="trip_name">\t\t\t\t\tTrip Name</string>
+    <string name="optional_description">\t\t\t\t\tOptional Description</string>
     <string name="submit">SUBMIT</string>
-    <string name="hotel_inn">Hotel / Inn</string>
-    <string name="city_name">City Name</string>
-    <string name="brief_of_the_trip">Brief of the trip</string>
+    <string name="hotel_inn">\t\t\t\t\tHotel / Inn</string>
+    <string name="city_name">\t\t\t\t\tCity Name</string>
+    <string name="brief_of_the_trip">\t\t\t\t\tBrief of the trip</string>
+    <string name="enter_a_place_you_want_to_go_to">\t\t\t\t\t\t\t\t\t\tEnter a place you want to go to!</string>
+    <string name="search_your_place">SEARCH YOUR PLACE</string>
+    <string name="add_new_activity">Add new activity</string>
 </resources>

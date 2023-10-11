@@ -1,16 +1,18 @@
 package com.wanderwise
+
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-class ActivityEditionFragment: Fragment(R.layout.activity_activity_edition){
+class NewActivityFragment : Fragment(R.layout.activity_new_activity) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activityEditionButton: Button = view.findViewById(R.id.activity_edition_button)
-        activityEditionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_to_edit_activity)
+        val listActBtn: Button = view.findViewById(R.id.listActivitiesBtn)
+
+        listActBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_to_activity_selection)
         }
     }
 }
