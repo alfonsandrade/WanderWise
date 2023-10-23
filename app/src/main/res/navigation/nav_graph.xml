@@ -11,7 +11,9 @@
         tools:layout="@layout/activity_login">
         <action
             android:id="@+id/action_to_tripSelection"
-            app:destination="@id/tripSelectionScreenFragment" />
+            app:destination="@id/tripSelectionScreenFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment

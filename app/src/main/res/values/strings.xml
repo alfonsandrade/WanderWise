@@ -19,4 +19,10 @@
     <string name="enter_a_place_you_want_to_go_to">\t\t\t\t\t\t\t\t\t\tEnter a place you want to go to!</string>
     <string name="search_your_place">SEARCH YOUR PLACE</string>
     <string name="add_new_activity">Add new activity</string>
+    <string name="trip_name_two_dots">Trip name:</string>
+    <string name="from_two_dots">From:</string>
+    <string name="to_two_dots">To:</string>
+    <string name="duration_two_dots">Duration:</string>
+    <string name="budget_two_dots">Budget:</string>
+    <string name="a_landscape_from_the_trip">A landscape from the trip</string>
 </resources>
