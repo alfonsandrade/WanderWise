@@ -7,9 +7,11 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
 
+    private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     private lateinit var tripList: ArrayList<Trip>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,6 +29,13 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         trip = Trip("Greece trip", fromDate, toDate, "A trip to Greece", R.drawable.landscape)
         tripList.add(trip)
 
+        try {
+            val bundle: Bundle = requireArguments()
+            treatReceivedData(bundle)
+        } catch (e: IllegalStateException) {
+            e.printStackTrace()
+        }
+
         listView.adapter = TripAdapter(requireContext(), tripList)
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
@@ -35,6 +44,23 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
 
         addTripBtn.setOnClickListener {
             findNavController().navigate(R.id.action_to_newTrip)
+        }
+    }
+
+    /**
+     * Treats the data received from the previous fragment 
+     */
+    private fun treatReceivedData(bundle: Bundle) {
+        val tripName: String = bundle.getString("tripName").toString()
+        if ("null" != tripName) {
+            val fromDate: String = bundle.getString("fromDate").toString()
+            val toDate: String = bundle.getString("toDate").toString()
+            val description: String = bundle.getString("description").toString()
+
+            if ("null" != fromDate && "null" != toDate) {
+                val trip = Trip(tripName, LocalDate.parse(fromDate, DATE_FORMAT), LocalDate.parse(toDate, DATE_FORMAT), description, R.drawable.landscape)
+                tripList.add(trip)
+            }
         }
     }
 }
