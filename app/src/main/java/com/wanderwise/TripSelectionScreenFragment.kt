@@ -51,16 +51,10 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
      * Treats the data received from the previous fragment 
      */
     private fun treatReceivedData(bundle: Bundle) {
-        val tripName: String = bundle.getString("tripName").toString()
-        if ("null" != tripName) {
-            val fromDate: String = bundle.getString("fromDate").toString()
-            val toDate: String = bundle.getString("toDate").toString()
-            val description: String = bundle.getString("description").toString()
+        val trip = bundle.getParcelable<Trip>("newTrip")
 
-            if ("null" != fromDate && "null" != toDate) {
-                val trip = Trip(tripName, LocalDate.parse(fromDate, DATE_FORMAT), LocalDate.parse(toDate, DATE_FORMAT), description, R.drawable.landscape)
-                tripList.add(trip)
-            }
+        if (null != trip) {
+            tripList.add(trip)
         }
     }
 }
