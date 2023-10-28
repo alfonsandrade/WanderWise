@@ -45,8 +45,8 @@
         android:label="City Selection"
         tools:layout="@layout/activity_city_selection" >
         <action
-            android:id="@+id/action_to_activity_selection"
-            app:destination="@id/activitySelectionScreenFragment" />
+            android:id="@+id/action_to_attraction_selection"
+            app:destination="@id/attractionSelectionScreenFragment" />
         <action
             android:id="@+id/action_to_newCity"
             app:destination="@id/newCityScreenFragment" />
@@ -63,32 +63,32 @@
     </fragment>
 
     <fragment
-        android:id="@+id/activitySelectionScreenFragment"
-        android:name="com.wanderwise.ActivitySelectionFragment"
-        android:label="Activity Selection"
-        tools:layout="@layout/activity_activity_selection" >
+        android:id="@+id/attractionSelectionScreenFragment"
+        android:name="com.wanderwise.AttractionSelectionFragment"
+        android:label="Attraction Selection"
+        tools:layout="@layout/activity_attraction_selection" >
         <action
-            android:id="@+id/action_to_edit_activity"
-            app:destination="@id/action_to_edit_activity" />
+            android:id="@+id/action_to_edit_attraction"
+            app:destination="@id/attractionEditingFragment" />
         <action
-            android:id="@+id/action_to_new_activity"
-            app:destination="@id/newActivityScreenFragment" />
+            android:id="@+id/action_to_new_attraction"
+            app:destination="@id/newAttractionScreenFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/newActivityScreenFragment"
-        android:name="com.wanderwise.NewActivityFragment"
-        android:label="New Activity"
-        tools:layout="@layout/activity_new_activity" >
+        android:id="@+id/newAttractionScreenFragment"
+        android:name="com.wanderwise.NewAttractionFragment"
+        android:label="New Attraction"
+        tools:layout="@layout/activity_new_attraction" >
         <action
-            android:id="@+id/action_to_activity_selection"
-            app:destination="@id/activitySelectionScreenFragment" />
+            android:id="@+id/action_to_attraction_selection"
+            app:destination="@id/attractionSelectionScreenFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/activityEditionFragment"
-        android:name="com.wanderwise.ActivityEditionFragment"
-        android:label="Activity Selection"
-        tools:layout="@layout/activity_activity_selection" >
+        android:id="@+id/attractionEditingFragment"
+        android:name="com.wanderwise.AttractionEditingFragment"
+        android:label="Attraction Editing"
+        tools:layout="@layout/activity_attraction_selection" >
     </fragment>
 </navigation>

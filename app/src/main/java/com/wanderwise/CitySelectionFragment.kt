@@ -46,7 +46,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
             popupMenu.show()
         }
         listActBtn.setOnClickListener(){
-            findNavController().navigate(R.id.action_to_activity_selection)
+            findNavController().navigate(R.id.action_to_attraction_selection)
         }
     }
 }

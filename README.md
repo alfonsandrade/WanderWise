@@ -36,7 +36,7 @@ Wander Wise: A Kotlin-based travel planning system. Efficiently manages travel d
 - [ ] **ActivitySelectionFragment**
   - UI for selecting activities for a city.
 
-- [ ] **ActivityEditionFragment**
+- [ ] **ActivityEditingFragment**
   - Design UI for editing an activity's details.
 
 - [ ] **NewTripFragment & Google Places API**
