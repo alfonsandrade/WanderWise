@@ -83,4 +83,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
 
     implementation ("com.google.android.material:material:1.9.0")
+
+    //Database
+    implementation ("com.google.firebase:firebase-database:latest_version")
 }
