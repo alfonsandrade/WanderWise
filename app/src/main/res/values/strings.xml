@@ -25,4 +25,7 @@
     <string name="duration_two_dots">Duration:</string>
     <string name="budget_two_dots">Budget:</string>
     <string name="a_landscape_from_the_trip">A landscape from the trip</string>
+    <string name="hotel_inn_two_dots">Hotel/Inn:</string>
+    <string name="add_your_stay">Add your stay</string>
+    <string name="planning_two_dots">Planning:</string>
 </resources>

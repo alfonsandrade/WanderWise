@@ -22,11 +22,11 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         tripList = ArrayList()
         var fromDate: LocalDate = LocalDate.of(2023, 6, 12)
         var toDate: LocalDate = LocalDate.of(2023, 6, 22)
-        var trip = Trip("Japan trip", fromDate, toDate, "A trip to Japan", R.drawable.landscape)
+        var trip = Trip("Japan trip", fromDate, toDate, "A trip to Japan", ArrayList(), R.drawable.landscape)
         tripList.add(trip)
         fromDate = LocalDate.of(2023, 11, 23)
         toDate = LocalDate.of(2023, 12, 15)
-        trip = Trip("Greece trip", fromDate, toDate, "A trip to Greece", R.drawable.landscape)
+        trip = Trip("Greece trip", fromDate, toDate, "A trip to Greece", ArrayList(), R.drawable.landscape)
         tripList.add(trip)
 
         try {

@@ -26,7 +26,8 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
             val newTrip = Trip(tripName.text.toString(),
                 LocalDate.parse(fromDate.text.toString(), DATE_FORMAT),
                 LocalDate.parse(toDate.text.toString(), DATE_FORMAT),
-                description.text.toString())
+                description.text.toString(),
+                ArrayList())
 
             val bundle: Bundle = bundleOf("newTrip" to newTrip)
 

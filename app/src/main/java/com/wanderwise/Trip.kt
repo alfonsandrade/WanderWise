@@ -4,12 +4,13 @@ import android.os.Parcelable
 import java.time.LocalDate
 
 data class Trip(var name: String = "", var fromDate: LocalDate?, var toDate: LocalDate?, var description: String = "",
-                var imageId: Int = R.drawable.landscape) : Parcelable {
+                var cities: ArrayList<City?>, var imageId: Int = R.drawable.landscape) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readSerializable() as? LocalDate,
         parcel.readSerializable() as? LocalDate,
         parcel.readString()!!,
+        parcel.readArrayList(City::class.java.classLoader) as ArrayList<City?>,
         parcel.readInt()
     )
 
@@ -18,6 +19,7 @@ data class Trip(var name: String = "", var fromDate: LocalDate?, var toDate: Loc
         parcel.writeSerializable(fromDate)
         parcel.writeSerializable(toDate)
         parcel.writeString(description)
+        parcel.writeList(cities)
         parcel.writeInt(imageId)
     }
 
@@ -33,5 +35,9 @@ data class Trip(var name: String = "", var fromDate: LocalDate?, var toDate: Loc
         override fun newArray(size: Int): Array<Trip?> {
             return arrayOfNulls<Trip?>(size)
         }
+    }
+
+    fun addCity(city: City) {
+        this.cities.add(city)
     }
 }
