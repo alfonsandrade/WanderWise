@@ -45,6 +45,20 @@
         app:layout_constraintVertical_bias="0.02"
         app:rippleColor="@color/DarkerButtonBlue" />
 
+    <ListView
+        android:id="@+id/citiesListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/addCityBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/city_list_item" />
+
+
     <Button
         android:id="@+id/justABtn"
         android:layout_width="wrap_content"

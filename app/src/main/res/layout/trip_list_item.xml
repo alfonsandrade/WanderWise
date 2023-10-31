@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tripName"
+            android:id="@+id/cityName"
             android:text="Trip Name"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -52,7 +52,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tripName"
+            app:layout_constraintStart_toEndOf="@id/cityName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.15"/>
@@ -66,7 +66,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/from"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tripName"
+            app:layout_constraintStart_toEndOf="@id/cityName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.05"/>
@@ -82,7 +82,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/fromDate"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tripName"
+            app:layout_constraintStart_toEndOf="@id/cityName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.05"/>
@@ -96,7 +96,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/to"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tripName"
+            app:layout_constraintStart_toEndOf="@id/cityName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.05" />

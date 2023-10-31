@@ -3,6 +3,7 @@ package com.wanderwise
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ListView
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
         val addCityBtn: Button = view.findViewById(R.id.addCityBtn)
         val tripBriefBtn: Button = view.findViewById(R.id.tripBriefBtn)
         val listActBtn: Button = view.findViewById(R.id.justABtn)
+        val listView: ListView = view.findViewById(R.id.citiesListView)
 
         addCityBtn.setOnClickListener {
             findNavController().navigate(R.id.action_to_newCity)
