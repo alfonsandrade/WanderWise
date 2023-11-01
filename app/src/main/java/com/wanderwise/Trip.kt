@@ -2,36 +2,53 @@ package com.wanderwise
 
 import android.os.Parcelable
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlinx.parcelize.Parcelize
 
-data class Trip(var name: String = "", var fromDate: LocalDate?, var toDate: LocalDate?, var description: String = "",
-                var imageId: Int = R.drawable.landscape) : Parcelable {
-    constructor(parcel: android.os.Parcel) : this(
-        parcel.readString()!!,
-        parcel.readSerializable() as? LocalDate,
-        parcel.readSerializable() as? LocalDate,
-        parcel.readString()!!,
-        parcel.readInt()
-    )
+@Parcelize
+data class Trip(
+    var name: String = "",
+    var fromDate: LocalDate? = null,
+    var toDate: LocalDate? = null,
+    var description: String = "",
+    var imageId: Int = R.drawable.landscape
+) : Parcelable {
 
-    override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
-        parcel.writeString(name)
-        parcel.writeSerializable(fromDate)
-        parcel.writeSerializable(toDate)
-        parcel.writeString(description)
-        parcel.writeInt(imageId)
+    // Convert the Trip object to a Firebase-friendly format
+    fun toFirebaseTrip(): FirebaseTrip {
+        return FirebaseTrip(
+            name = this.name,
+            fromDateStr = this.fromDate?.format(DATE_FORMAT),
+            toDateStr = this.toDate?.format(DATE_FORMAT),
+            description = this.description,
+            imageId = this.imageId
+        )
     }
 
-    override fun describeContents(): Int {
-        TODO("Not yet implemented")
-    }
+    companion object {
+        private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
-    companion object CREATOR : Parcelable.Creator<Trip> {
-        override fun createFromParcel(parcel: android.os.Parcel): Trip {
-            return Trip(parcel)
-        }
+        // Convert the Firebase-friendly format back to a Trip object
+        fun fromFirebaseTrip(firebaseTrip: FirebaseTrip): Trip {
+            val fromDate = firebaseTrip.fromDateStr?.let { LocalDate.parse(it, DATE_FORMAT) }
+            val toDate = firebaseTrip.toDateStr?.let { LocalDate.parse(it, DATE_FORMAT) }
 
-        override fun newArray(size: Int): Array<Trip?> {
-            return arrayOfNulls<Trip?>(size)
+            return Trip(
+                name = firebaseTrip.name,
+                fromDate = fromDate,
+                toDate = toDate,
+                description = firebaseTrip.description,
+                imageId = firebaseTrip.imageId
+            )
         }
     }
 }
+
+// Define the Firebase-friendly version of the Trip class
+data class FirebaseTrip(
+    var name: String = "",
+    var fromDateStr: String? = null,
+    var toDateStr: String? = null,
+    var description: String = "",
+    var imageId: Int = R.drawable.landscape
+)

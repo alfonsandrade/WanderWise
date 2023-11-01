@@ -15,21 +15,27 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val submitBtn:   Button   = view.findViewById(R.id.submitBtn)
-        val tripName:    EditText = view.findViewById(R.id.tripNameText)
-        val fromDate:    EditText = view.findViewById(R.id.fromDate)
-        val toDate:      EditText = view.findViewById(R.id.toDate)
+        val submitBtn: Button = view.findViewById(R.id.submitBtn)
+        val tripName: EditText = view.findViewById(R.id.tripNameText)
+        val fromDateInput: EditText = view.findViewById(R.id.fromDate)
+        val toDateInput: EditText = view.findViewById(R.id.toDate)
         val description: EditText = view.findViewById(R.id.descriptionText)
 
-        // Puts all the data into a bundle and sends it to the next fragment
         submitBtn.setOnClickListener {
-            val newTrip = Trip(tripName.text.toString(),
-                LocalDate.parse(fromDate.text.toString(), DATE_FORMAT),
-                LocalDate.parse(toDate.text.toString(), DATE_FORMAT),
-                description.text.toString())
+            val fromDateString: String = fromDateInput.text.toString()
+            val toDateString: String = toDateInput.text.toString()
+
+            val fromLocalDate: LocalDate = LocalDate.parse(fromDateString, DATE_FORMAT)
+            val toLocalDate: LocalDate = LocalDate.parse(toDateString, DATE_FORMAT)
+
+            val newTrip = Trip(
+                tripName.text.toString(),
+                fromLocalDate,
+                toLocalDate,
+                description.text.toString()
+            )
 
             val bundle: Bundle = bundleOf("newTrip" to newTrip)
-
             findNavController().navigate(R.id.action_to_tripSelection, bundle)
         }
     }

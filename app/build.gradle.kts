@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -62,6 +64,7 @@ dependencies {
     implementation("androidx.compose.foundation:foundation-android:1.5.2")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.3")
     implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation("com.google.firebase:firebase-database:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -81,6 +84,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat-resources:$appcompatVersion")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.3")
-
+    implementation ("org.jetbrains.kotlin:kotlin-android-extensions-runtime:1.6.10")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+    implementation ("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
     implementation ("com.google.android.material:material:1.9.0")
 }
