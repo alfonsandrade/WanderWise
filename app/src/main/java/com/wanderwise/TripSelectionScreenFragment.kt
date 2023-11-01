@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import java.time.LocalDate
@@ -39,7 +40,8 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         listView.adapter = TripAdapter(requireContext(), tripList)
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
-            findNavController().navigate(R.id.action_to_citySelection)
+            val bundle: Bundle = bundleOf("newTrip" to tripList[position])
+            findNavController().navigate(R.id.action_to_citySelection, bundle)
         }
 
         addTripBtn.setOnClickListener {

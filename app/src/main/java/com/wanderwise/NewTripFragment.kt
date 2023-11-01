@@ -23,15 +23,18 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
 
         // Puts all the data into a bundle and sends it to the next fragment
         submitBtn.setOnClickListener {
-            val newTrip = Trip(tripName.text.toString(),
-                LocalDate.parse(fromDate.text.toString(), DATE_FORMAT),
-                LocalDate.parse(toDate.text.toString(), DATE_FORMAT),
-                description.text.toString(),
-                ArrayList())
+            if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
+                val newTrip = Trip(
+                    tripName.text!!.toString(),
+                    LocalDate.parse(fromDate.text!!.toString(), DATE_FORMAT),
+                    LocalDate.parse(toDate.text!!.toString(), DATE_FORMAT),
+                    description.text!!.toString(),
+                    ArrayList())
 
-            val bundle: Bundle = bundleOf("newTrip" to newTrip)
+                val bundle: Bundle = bundleOf("newTrip" to newTrip)
 
-            findNavController().navigate(R.id.action_to_tripSelection, bundle)
+                findNavController().navigate(R.id.action_to_tripSelection, bundle)
+            }
         }
     }
 }

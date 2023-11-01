@@ -15,6 +15,7 @@ class AttractionSelectionFragment: Fragment(R.layout.activity_attraction_selecti
                                 "Serj",
                                 LocalDate.of(2023, 11, 23),
                                 LocalDate.of(2023, 11, 28),
+                                "Biribim",
                                 ArrayList())
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +49,7 @@ class AttractionSelectionFragment: Fragment(R.layout.activity_attraction_selecti
             findNavController().navigate(R.id.action_to_new_attraction)
         }
         hotelBtn.setOnClickListener {
-            
+            findNavController().navigate(R.id.action_to_new_attraction)
         }
     }
 
@@ -60,12 +61,6 @@ class AttractionSelectionFragment: Fragment(R.layout.activity_attraction_selecti
             city = arrivingCity
         } else if (null != attraction) {
             city.addAttraction(attraction)
-        } else {
-            city = City("Belina",
-                "Serj",
-                LocalDate.of(2023, 11, 23),
-                LocalDate.of(2023, 11, 28),
-                ArrayList())
         }
     }
 }
