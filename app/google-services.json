@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "121506434697",
+    "firebase_url": "https://wanderwise-firebase-default-rtdb.firebaseio.com",
+    "project_id": "wanderwise-firebase",
+    "storage_bucket": "wanderwise-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121506434697:android:a6607b7038c4b700bf4058",
+        "android_client_info": {
+          "package_name": "com.wanderwise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAGOedlVdn-qEHn1eDJ9jswmqcRMbnPFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

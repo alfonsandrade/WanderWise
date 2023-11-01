@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -85,5 +86,9 @@ dependencies {
     implementation ("com.google.android.material:material:1.9.0")
 
     //Database
-    implementation ("com.google.firebase:firebase-database:latest_version")
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.4.1"))
+    implementation("com.google.firebase:firebase-analytics-ktx")
+
+
 }
