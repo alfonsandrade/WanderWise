@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
+import androidx.core.os.bundleOf
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import com.google.firebase.database.*
 
 class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
 
-    private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     private lateinit var tripList: ArrayList<Trip>
     private lateinit var database: DatabaseReference
     private lateinit var listView: ListView
@@ -36,16 +35,6 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
             isTripsLoaded = true
         }
 
-        listView.adapter = TripAdapter(requireContext(), tripList)
-        listView.isClickable = true
-        listView.setOnItemClickListener { _, _, position, _ ->
-            findNavController().navigate(R.id.action_to_citySelection)
-        }
-
-        addTripBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_to_newTrip)
-        }
-
         try {
             val bundle: Bundle = requireArguments()
             treatReceivedData(bundle)
@@ -56,7 +45,8 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         listView.adapter = TripAdapter(requireContext(), tripList)
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
-            findNavController().navigate(R.id.action_to_citySelection)
+            val bundle: Bundle = bundleOf("newTrip" to tripList[position])
+            findNavController().navigate(R.id.action_to_citySelection, bundle)
         }
 
         addTripBtn.setOnClickListener {
@@ -83,7 +73,11 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
                 for (snapshot in dataSnapshot.children) {
                     val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
                     if (firebaseTrip != null) {
-                        newTrips.add(Trip.fromFirebaseTrip(firebaseTrip))
+                        try {
+                            newTrips.add(Trip.fromFirebaseTrip(firebaseTrip))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
                 tripList.clear()
