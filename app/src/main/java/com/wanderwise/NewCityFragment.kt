@@ -15,22 +15,23 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val submitBtn:   Button   = view.findViewById(R.id.submitBtn)
-        val cityName:    EditText = view.findViewById(R.id.cityNameText)
-        val hotelName:   EditText = view.findViewById(R.id.hotelName)
-        val fromDate:    EditText = view.findViewById(R.id.fromDate)
-        val toDate:      EditText = view.findViewById(R.id.toDate)
+        val submitBtn: Button = view.findViewById(R.id.submitBtn)
+        val cityName: EditText = view.findViewById(R.id.cityNameText)
+        val hotelName: EditText = view.findViewById(R.id.hotelName)
+        val fromDate: EditText = view.findViewById(R.id.fromDate)
+        val toDate: EditText = view.findViewById(R.id.toDate)
         val description: EditText = view.findViewById(R.id.descriptionText)
-
+        val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         submitBtn.setOnClickListener {
             if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
-                val newCity: City = City(
-                    cityName.text!!.toString(),
-                    hotelName.text!!.toString(),
+                val newCity = City(
+                    "",
+                    "",
+                    cityName.text.toString(),
+                    hotelName.text.toString(),
                     LocalDate.parse(fromDate.text!!.toString(), DATE_FORMAT),
                     LocalDate.parse(toDate.text!!.toString(), DATE_FORMAT),
-                    description.text!!.toString(),
-                    ArrayList()
+                    description.text.toString()
                 )
 
                 val bundle: Bundle = bundleOf("newCity" to newCity)

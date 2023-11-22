@@ -23,7 +23,26 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         super.onCreate(savedInstanceState)
         database = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wanderwise-firebase-default-rtdb.firebaseio.com/").child("trips")
         tripList = ArrayList()
-        loadTripsFromFirebase()
+
+        fun loadTripsFromFirebase() {
+            tripsEventListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    tripList.clear()
+                    for (snapshot in dataSnapshot.children) {
+                        val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
+                        firebaseTrip?.let {
+                            tripList.add(Trip.fromFirebaseTrip(it))
+                        }
+                    }
+                    (listView.adapter as TripAdapter).notifyDataSetChanged()
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Handle possible errors.
+                }
+            }
+            database.addValueEventListener(tripsEventListener)
+        }
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +50,27 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         listView = view.findViewById(R.id.tripsListView)
 
         if (!isTripsLoaded) {
-            loadTripsFromFirebase()
+
+            fun loadTripsFromFirebase() {
+                tripsEventListener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        tripList.clear()
+                        for (snapshot in dataSnapshot.children) {
+                            val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
+                            firebaseTrip?.let {
+                                tripList.add(Trip.fromFirebaseTrip(it))
+                            }
+                        }
+                        (listView.adapter as TripAdapter).notifyDataSetChanged()
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Handle possible errors.
+                    }
+                }
+                database.addValueEventListener(tripsEventListener)
+            }
+
             isTripsLoaded = true
         }
 
@@ -63,31 +102,23 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         }
     }
     private fun loadTripsFromFirebase() {
-        if (::tripsEventListener.isInitialized) {
-            database.removeEventListener(tripsEventListener)
-        }
-
-        tripsEventListener = database.addValueEventListener(object : ValueEventListener {
+        tripsEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val newTrips = HashSet<Trip>()
+                tripList.clear()
                 for (snapshot in dataSnapshot.children) {
                     val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
-                    if (firebaseTrip != null) {
-                        try {
-                            newTrips.add(Trip.fromFirebaseTrip(firebaseTrip))
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                    firebaseTrip?.let {
+                        tripList.add(Trip.fromFirebaseTrip(it))
                     }
                 }
-                tripList.clear()
-                tripList.addAll(newTrips)
                 (listView.adapter as TripAdapter).notifyDataSetChanged()
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(requireContext(), "Error loading trips!", Toast.LENGTH_SHORT).show()
+                // Handle possible errors.
             }
-        })
+        }
+        database.addValueEventListener(tripsEventListener)
     }
     override fun onDestroyView() {
         super.onDestroyView()

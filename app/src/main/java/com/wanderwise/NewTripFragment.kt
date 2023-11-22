@@ -25,11 +25,11 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
         submitBtn.setOnClickListener {
             if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
                 val newTrip = Trip(
+                    "",
                     tripName.text!!.toString(),
                     LocalDate.parse(fromDate.text!!.toString(), DATE_FORMAT),
                     LocalDate.parse(toDate.text!!.toString(), DATE_FORMAT),
-                    description.text!!.toString(),
-                    ArrayList())
+                    description.text!!.toString())
 
                 val bundle: Bundle = bundleOf("newTrip" to newTrip)
 

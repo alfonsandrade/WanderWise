@@ -3,22 +3,25 @@ package com.wanderwise
 import android.os.Parcelable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
-data class Trip(var name: String = "",
-                var fromDate: LocalDate?,
-                var toDate: LocalDate?,
-                var description: String = "",
-                var cities: ArrayList<City?>,
-                var imageId: Int = R.drawable.landscape) : Parcelable {
+import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
+import com.google.firebase.database.FirebaseDatabase
+data class Trip(
+    var tripId: String = "",
+    var name: String = "",
+    var fromDate: LocalDate?,
+    var toDate: LocalDate?,
+    var description: String = "",
+    var imageId: Int = R.drawable.landscape) : Parcelable {
 
     private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readSerializable() as? LocalDate,
         parcel.readSerializable() as? LocalDate,
         parcel.readString()!!,
-        parcel.readArrayList(City::class.java.classLoader) as ArrayList<City?>,
         parcel.readInt()
     )
 
@@ -27,7 +30,6 @@ data class Trip(var name: String = "",
         parcel.writeSerializable(fromDate)
         parcel.writeSerializable(toDate)
         parcel.writeString(description)
-        parcel.writeList(cities)
         parcel.writeInt(imageId)
     }
 
@@ -44,7 +46,6 @@ data class Trip(var name: String = "",
             return arrayOfNulls<Trip?>(size)
         }
 
-        // Convert the Firebase-friendly format back to a Trip object
         fun fromFirebaseTrip(firebaseTrip: FirebaseTrip): Trip {
             val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
             val fromDate = firebaseTrip.fromDateStr?.let { LocalDate.parse(it, DATE_FORMAT) }
@@ -55,7 +56,6 @@ data class Trip(var name: String = "",
                 fromDate = fromDate,
                 toDate = toDate,
                 description = firebaseTrip.description,
-                cities = firebaseTrip.cities,
                 imageId = firebaseTrip.imageId
             )
         }
@@ -63,29 +63,83 @@ data class Trip(var name: String = "",
 
     ////////// FIREBASE IMPLEMENTATION ///////////
 
-    // Convert the Trip object to a Firebase-friendly format
     fun toFirebaseTrip(): FirebaseTrip {
         return FirebaseTrip(
+            tripId = this.tripId,
             name = this.name,
             fromDateStr = this.fromDate?.format(DATE_FORMAT),
             toDateStr = this.toDate?.format(DATE_FORMAT),
             description = this.description,
-            cities = this.cities,
             imageId = this.imageId
         )
     }
-
-    fun addCity(city: City) {
-        this.cities.add(city)
-    }
 }
-
-// Define the Firebase-friendly version of the Trip class
+@IgnoreExtraProperties
 data class FirebaseTrip(
+    var tripId: String = "",
     var name: String = "",
     var fromDateStr: String? = null,
     var toDateStr: String? = null,
     var description: String = "",
-    var cities: ArrayList<City?>,
-    var imageId: Int = R.drawable.landscape
-)
+    var imageId: Int = 0
+) {
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "tripId" to tripId,
+            "name" to name,
+            "fromDateStr" to fromDateStr,
+            "toDateStr" to toDateStr,
+            "description" to description,
+            "imageId" to imageId
+        )
+    }
+    fun Trip.toFirebaseTrip(): FirebaseTrip {
+        return FirebaseTrip(
+            tripId = this.tripId,
+            name = this.name,
+            fromDateStr = this.fromDate?.format(DATE_FORMAT),
+            toDateStr = this.toDate?.format(DATE_FORMAT),
+            description = this.description,
+            imageId = this.imageId
+        )
+    }
+
+    companion object {
+        val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+        // Convert the Firebase-friendly format back to a Trip object
+        fun fromFirebaseTrip(firebaseTrip: FirebaseTrip): Trip {
+            val fromDate = firebaseTrip.fromDateStr?.let { LocalDate.parse(it, DATE_FORMAT) }
+            val toDate = firebaseTrip.toDateStr?.let { LocalDate.parse(it, DATE_FORMAT) }
+
+            return Trip(
+                tripId = firebaseTrip.tripId,
+                name = firebaseTrip.name,
+                fromDate = fromDate,
+                toDate = toDate,
+                description = firebaseTrip.description,
+                imageId = firebaseTrip.imageId
+            )
+        }
+
+        fun saveToFirebase(trip: Trip) {
+            val database = FirebaseDatabase.getInstance().reference
+            val key = database.child("trips").push().key
+            if (key != null) {
+                trip.tripId = key
+                database.child("trips").child(key).setValue(trip.toFirebaseTrip())
+            }
+        }
+
+        fun retrieveFromFirebase(tripId: String, callback: (Trip?) -> Unit) {
+            val database = FirebaseDatabase.getInstance().reference
+            database.child("trips").child(tripId).get().addOnSuccessListener {
+                val firebaseTrip = it.getValue(FirebaseTrip::class.java)
+                val trip = firebaseTrip?.let { fromFirebaseTrip(it) }
+                callback(trip)
+            }.addOnFailureListener {
+                callback(null)
+            }
+        }
+    }}
