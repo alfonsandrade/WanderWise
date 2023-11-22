@@ -2,22 +2,44 @@ package com.wanderwise
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.ListView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import java.time.LocalDate
+import com.google.firebase.database.*
 
-class AttractionSelectionFragment: Fragment(R.layout.activity_attraction_selection){
-    private var city: City = City("Belina",
-                                "Serj",
-                                LocalDate.of(2023, 11, 23),
-                                LocalDate.of(2023, 11, 28),
-                                "Biribim",
-                                ArrayList())
+class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_selection) {
+    private lateinit var cityId: String
+    private lateinit var listView: ListView
+    private lateinit var database: DatabaseReference
+    private lateinit var attractionList: ArrayList<Attraction>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        listView = view.findViewById(R.id.attractionsListView)
+        database = FirebaseDatabase.getInstance().reference.child("attractions")
+
+        val city: City = arguments?.getParcelable("selectedCity") ?: return
+        cityId = city.cityId
+        loadAttractionsForCity(cityId)
+    }
+
+    private fun loadAttractionsForCity(cityId: String) {
+        attractionList = ArrayList()
+        database.orderByChild("cityId").equalTo(cityId).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                attractionList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val attraction = snapshot.getValue(Attraction::class.java)
+                    attraction?.let { attractionList.add(it) }
+                }
+                listView.adapter = AttractionAdapter(requireContext(), attractionList)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle possible errors.
+            }
+        })
+    /*
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val newAttrBtn: Button = view.findViewById(R.id.addActivityBtn)
         val hotelBtn: Button = view.findViewById(R.id.hotelBtn)
@@ -63,4 +85,5 @@ class AttractionSelectionFragment: Fragment(R.layout.activity_attraction_selecti
             city.addAttraction(attraction)
         }
     }
-}
+     */
+}}

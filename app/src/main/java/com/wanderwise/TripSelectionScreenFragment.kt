@@ -122,7 +122,9 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     }
     override fun onDestroyView() {
         super.onDestroyView()
-        database.removeEventListener(tripsEventListener)
+        if (this::tripsEventListener.isInitialized) {
+            database.removeEventListener(tripsEventListener)
+        }
     }
     private fun storeTripToFirebase(trip: Trip) {
         val tripId = database.push().key

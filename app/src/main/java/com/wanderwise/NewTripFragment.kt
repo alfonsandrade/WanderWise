@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 class NewTripFragment : Fragment(R.layout.activity_new_trip) {
     private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -20,19 +21,21 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
         val fromDate:    EditText = view.findViewById(R.id.fromDate)
         val toDate:      EditText = view.findViewById(R.id.toDate)
         val description: EditText = view.findViewById(R.id.descriptionText)
-
-        // Puts all the data into a bundle and sends it to the next fragment
         submitBtn.setOnClickListener {
             if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
+                val newTripId = UUID.randomUUID().toString()
                 val newTrip = Trip(
-                    "",
+                    newTripId,
                     tripName.text!!.toString(),
                     LocalDate.parse(fromDate.text!!.toString(), DATE_FORMAT),
                     LocalDate.parse(toDate.text!!.toString(), DATE_FORMAT),
-                    description.text!!.toString())
+                    description.text!!.toString()
+                )
+
+                // Optionally, save the trip to Firebase
+                Trip.saveToFirebase(newTrip)
 
                 val bundle: Bundle = bundleOf("newTrip" to newTrip)
-
                 findNavController().navigate(R.id.action_to_tripSelection, bundle)
             }
         }

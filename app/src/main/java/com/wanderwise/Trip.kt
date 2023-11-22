@@ -105,6 +105,17 @@ data class FirebaseTrip(
         )
     }
 
+    fun retrieveFromFirebase(tripId: String, callback: (Trip?) -> Unit) {
+        val database = FirebaseDatabase.getInstance().reference
+        database.child("trips").child(tripId).get().addOnSuccessListener {
+            val firebaseTrip = it.getValue(FirebaseTrip::class.java)
+            val trip = firebaseTrip?.let { fromFirebaseTrip(it) }
+            callback(trip)
+        }.addOnFailureListener {
+            callback(null)
+        }
+    }
+
     companion object {
         val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
@@ -122,24 +133,12 @@ data class FirebaseTrip(
                 imageId = firebaseTrip.imageId
             )
         }
-
         fun saveToFirebase(trip: Trip) {
             val database = FirebaseDatabase.getInstance().reference
             val key = database.child("trips").push().key
             if (key != null) {
                 trip.tripId = key
                 database.child("trips").child(key).setValue(trip.toFirebaseTrip())
-            }
-        }
-
-        fun retrieveFromFirebase(tripId: String, callback: (Trip?) -> Unit) {
-            val database = FirebaseDatabase.getInstance().reference
-            database.child("trips").child(tripId).get().addOnSuccessListener {
-                val firebaseTrip = it.getValue(FirebaseTrip::class.java)
-                val trip = firebaseTrip?.let { fromFirebaseTrip(it) }
-                callback(trip)
-            }.addOnFailureListener {
-                callback(null)
             }
         }
     }}
