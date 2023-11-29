@@ -21,6 +21,7 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
         val fromDate:    EditText = view.findViewById(R.id.fromDate)
         val toDate:      EditText = view.findViewById(R.id.toDate)
         val description: EditText = view.findViewById(R.id.descriptionText)
+
         submitBtn.setOnClickListener {
             if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
                 val newTripId = UUID.randomUUID().toString()
@@ -31,9 +32,6 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
                     LocalDate.parse(toDate.text!!.toString(), DATE_FORMAT),
                     description.text!!.toString()
                 )
-
-                // Optionally, save the trip to Firebase
-                Trip.saveToFirebase(newTrip)
 
                 val bundle: Bundle = bundleOf("newTrip" to newTrip)
                 findNavController().navigate(R.id.action_to_tripSelection, bundle)

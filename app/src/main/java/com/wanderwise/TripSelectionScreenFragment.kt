@@ -1,6 +1,7 @@
 package com.wanderwise
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
@@ -23,64 +24,29 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         super.onCreate(savedInstanceState)
         database = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wanderwise-firebase-default-rtdb.firebaseio.com/").child("trips")
         tripList = ArrayList()
-
-        fun loadTripsFromFirebase() {
-            tripsEventListener = object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    tripList.clear()
-                    for (snapshot in dataSnapshot.children) {
-                        val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
-                        firebaseTrip?.let {
-                            tripList.add(Trip.fromFirebaseTrip(it))
-                        }
-                    }
-                    (listView.adapter as TripAdapter).notifyDataSetChanged()
-                }
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // Handle possible errors.
-                }
-            }
-            database.addValueEventListener(tripsEventListener)
-        }
-
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val addTripBtn: Button = view.findViewById(R.id.addTripBtn) ?: return
         listView = view.findViewById(R.id.tripsListView)
-
-        if (!isTripsLoaded) {
-
-            fun loadTripsFromFirebase() {
-                tripsEventListener = object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        tripList.clear()
-                        for (snapshot in dataSnapshot.children) {
-                            val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
-                            firebaseTrip?.let {
-                                tripList.add(Trip.fromFirebaseTrip(it))
-                            }
-                        }
-                        (listView.adapter as TripAdapter).notifyDataSetChanged()
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        // Handle possible errors.
-                    }
-                }
-                database.addValueEventListener(tripsEventListener)
+        val newTrip = arguments?.getParcelable<Trip>("newTrip")
+        newTrip?.let {
+            if (!tripList.any { trip -> trip.tripId == it.tripId }) {
+                storeTripToFirebase(it)
+                tripList.add(it)
             }
-
-            isTripsLoaded = true
+            arguments?.remove("newTrip")
         }
-
         try {
             val bundle: Bundle = requireArguments()
             treatReceivedData(bundle)
         } catch (e: IllegalStateException) {
             e.printStackTrace()
         }
-
+        if (!isTripsLoaded) {
+            loadTripsFromFirebase()
+            isTripsLoaded = true
+        }
         listView.adapter = TripAdapter(requireContext(), tripList)
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
@@ -94,32 +60,20 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     }
 
     private fun treatReceivedData(bundle: Bundle) {
-        val trip = bundle.getParcelable<Trip>("newTrip")
-
-        if (null != trip) {
-            tripList.add(trip)
-            storeTripToFirebase(trip)
-        }
-    }
-    private fun loadTripsFromFirebase() {
-        tripsEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tripList.clear()
-                for (snapshot in dataSnapshot.children) {
-                    val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
-                    firebaseTrip?.let {
-                        tripList.add(Trip.fromFirebaseTrip(it))
+        val newTrip = bundle.getParcelable<Trip>("newTrip") ?: return
+        if (tripList.none { it.tripId == newTrip.tripId }) {
+            database.child(newTrip.tripId).addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (!snapshot.exists()) {
+                        storeTripToFirebase(newTrip)
                     }
                 }
-                (listView.adapter as TripAdapter).notifyDataSetChanged()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle possible errors.
-            }
+                override fun onCancelled(databaseError: DatabaseError) {
+                }
+            })
         }
-        database.addValueEventListener(tripsEventListener)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         if (this::tripsEventListener.isInitialized) {
@@ -127,9 +81,29 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         }
     }
     private fun storeTripToFirebase(trip: Trip) {
-        val tripId = database.push().key
-        if (tripId != null) {
-            database.child(tripId).setValue(trip.toFirebaseTrip())
-        }
+        database.child(trip.tripId).setValue(trip.toFirebaseTrip())
     }
+    fun loadTripsFromFirebase() {
+        tripsEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                tripList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val firebaseTrip = snapshot.getValue(FirebaseTrip::class.java)
+                    if (firebaseTrip != null) {
+                        val trip = Trip.fromFirebaseTrip(firebaseTrip)
+                        tripList.add(trip)
+                    } else {
+                        Log.e("TripSelectionScreen", "Error parsing FirebaseTrip data")
+                    }
+                }
+                (listView.adapter as? TripAdapter)?.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("TripSelectionScreen", "Firebase Database Error: ${databaseError.message}")
+            }
+        }
+        database.addValueEventListener(tripsEventListener)
+    }
+
 }

@@ -52,6 +52,7 @@ data class Trip(
             val toDate = firebaseTrip.toDateStr?.let { LocalDate.parse(it, DATE_FORMAT) }
 
             return Trip(
+                tripId = firebaseTrip.tripId,
                 name = firebaseTrip.name,
                 fromDate = fromDate,
                 toDate = toDate,
@@ -141,4 +142,5 @@ data class FirebaseTrip(
                 database.child("trips").child(key).setValue(trip.toFirebaseTrip())
             }
         }
-    }}
+    }
+}
