@@ -14,9 +14,6 @@ data class City(
     var toDate: LocalDate?,
     var description: String = "",
 ) : Parcelable {
-
-
-    ///////// Parcelable implementation /////////
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -40,7 +37,17 @@ data class City(
     override fun describeContents(): Int {
         return 0
     }
-
+    fun toFirebaseCity(): FirebaseCity {
+        return FirebaseCity(
+            cityId = this.cityId,
+            tripId = this.tripId,
+            name = this.name,
+            hotelName = this.hotelName,
+            fromDateStr = this.fromDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            toDateStr = this.toDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            description = this.description
+        )
+    }
     companion object CREATOR : Parcelable.Creator<City> {
         override fun createFromParcel(parcel: android.os.Parcel): City {
             return City(parcel)

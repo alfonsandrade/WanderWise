@@ -33,7 +33,7 @@
     <Button
         android:id="@+id/addCityBtn"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:clickable="true"
         android:contentDescription="@string/add_new_trip"
         android:background="@drawable/round_btn_plus_shape"
