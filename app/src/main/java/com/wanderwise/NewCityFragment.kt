@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -22,20 +23,35 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
         val toDate: EditText = view.findViewById(R.id.toDate)
         val description: EditText = view.findViewById(R.id.descriptionText)
         val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val tripId = arguments?.getString("tripId") ?: return
+
         submitBtn.setOnClickListener {
             if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
                 val newCity = City(
                     "",
-                    "",
+                    tripId,
                     cityName.text.toString(),
                     hotelName.text.toString(),
-                    LocalDate.parse(fromDate.text!!.toString(), DATE_FORMAT),
-                    LocalDate.parse(toDate.text!!.toString(), DATE_FORMAT),
+                    fromDate.text.toString(),
+                    toDate.text.toString(),
                     description.text.toString()
                 )
 
-                val bundle: Bundle = bundleOf("newCity" to newCity)
-                findNavController().navigate(R.id.action_to_citySelection, bundle)
+                saveCityToFirebase(newCity)
+
+            }
+        }
+    }
+    private fun saveCityToFirebase(city: City) {
+        val database = FirebaseDatabase.getInstance().reference.child("cities")
+        val key = database.push().key
+        key?.let {
+            city.cityId = it
+            database.child(key).setValue(city.toFirebaseCity()).addOnCompleteListener { task ->
+                if (task.isSuccessful && isAdded) {
+                    findNavController().previousBackStackEntry?.savedStateHandle?.set("newCity", city)
+                    findNavController().popBackStack()
+                }
             }
         }
     }

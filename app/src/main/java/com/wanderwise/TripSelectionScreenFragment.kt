@@ -50,7 +50,8 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         listView.adapter = TripAdapter(requireContext(), tripList)
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
-            val bundle: Bundle = bundleOf("newTrip" to tripList[position])
+            val selectedTrip = tripList[position]
+            val bundle = bundleOf("selectedTrip" to selectedTrip)
             findNavController().navigate(R.id.action_to_citySelection, bundle)
         }
 

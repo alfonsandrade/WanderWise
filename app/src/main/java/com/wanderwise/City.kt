@@ -1,17 +1,18 @@
 package com.wanderwise
 import java.time.format.DateTimeFormatter
 import android.os.Parcelable
-import java.time.LocalDate
+
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.FirebaseDatabase
+@IgnoreExtraProperties
 data class City(
     var cityId: String = "",
     var tripId: String = "",
     var name: String = "",
     var hotelName: String = "",
-    var fromDate: LocalDate?,
-    var toDate: LocalDate?,
+    var fromDateStr: String? = null,
+    var toDateStr: String? = null,
     var description: String = "",
 ) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
@@ -19,18 +20,18 @@ data class City(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readSerializable() as? LocalDate,
-        parcel.readSerializable() as? LocalDate,
+        parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readString()!!,
     )
-
+    constructor() : this("", "", "", "", null, null, "")
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
         parcel.writeString(cityId)
         parcel.writeString(tripId)
         parcel.writeString(name)
         parcel.writeString(hotelName)
-        parcel.writeSerializable(fromDate)
-        parcel.writeSerializable(toDate)
+        parcel.writeString(fromDateStr)
+        parcel.writeString(toDateStr)
         parcel.writeString(description)
     }
 
@@ -43,8 +44,8 @@ data class City(
             tripId = this.tripId,
             name = this.name,
             hotelName = this.hotelName,
-            fromDateStr = this.fromDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-            toDateStr = this.toDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            fromDateStr = this.fromDateStr,
+            toDateStr = this.toDateStr,
             description = this.description
         )
     }
@@ -54,7 +55,7 @@ data class City(
         }
 
         override fun newArray(size: Int): Array<City?> {
-            return arrayOfNulls<City?>(size)
+            return arrayOfNulls(size)
         }
     }
 }
@@ -88,25 +89,24 @@ data class FirebaseCity(
                 tripId = this.tripId,
                 name = this.name,
                 hotelName = this.hotelName,
-                fromDateStr = this.fromDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                toDateStr = this.toDate?.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                fromDateStr = this.fromDateStr,  // Use the string directly
+                toDateStr = this.toDateStr,      // Use the string directly
                 description = this.description
             )
         }
-        private fun fromFirebaseCity(firebaseCity: FirebaseCity): City {
-            val fromDate = firebaseCity.fromDateStr?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern("dd/MM/yyyy")) }
-            val toDate = firebaseCity.toDateStr?.let { LocalDate.parse(it, DateTimeFormatter.ofPattern("dd/MM/yyyy")) }
 
+        private fun fromFirebaseCity(firebaseCity: FirebaseCity): City {
             return City(
                 cityId = firebaseCity.cityId,
                 tripId = firebaseCity.tripId,
                 name = firebaseCity.name,
                 hotelName = firebaseCity.hotelName,
-                fromDate = fromDate,
-                toDate = toDate,
+                fromDateStr = firebaseCity.fromDateStr,
+                toDateStr = firebaseCity.toDateStr,
                 description = firebaseCity.description
             )
         }
+
         fun saveToFirebase(city: City) {
             val database = FirebaseDatabase.getInstance().reference
             val key = database.child("cities").push().key
@@ -115,6 +115,7 @@ data class FirebaseCity(
                 database.child("cities").child(key).setValue(city.toFirebaseCity())
             }
         }
+
         fun retrieveFromFirebase(cityId: String, callback: (City?) -> Unit) {
             val database = FirebaseDatabase.getInstance().reference
             database.child("cities").child(cityId).get().addOnSuccessListener {
