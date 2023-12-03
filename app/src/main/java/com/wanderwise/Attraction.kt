@@ -3,24 +3,23 @@ package com.wanderwise
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.FirebaseDatabase
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.google.firebase.database.IgnoreExtraProperties
 
+@IgnoreExtraProperties
 data class Attraction(
+
     var attractionId: String = "",
     var cityId: String = "",
     var name: String = "",
     var isChecked: Boolean = false
 ) : Parcelable {
-
-    ///////// Parcelable implementation /////////
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte()
     )
-
+    constructor() : this("", "", "", false)
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
         parcel.writeString(attractionId)
         parcel.writeString(cityId)
@@ -31,7 +30,6 @@ data class Attraction(
     override fun describeContents(): Int {
         return 0
     }
-    ///////// Custom methods /////////
 
     fun setIsChecked(isChecked: Boolean) {
         this.isChecked = isChecked
@@ -41,9 +39,6 @@ data class Attraction(
         return this.isChecked
     }
 
-    ///////// Firebase integration /////////
-
-    // Firebase-friendly format for Attraction
     @Exclude
     fun toFirebaseAttraction(): FirebaseAttraction {
         return FirebaseAttraction(
@@ -61,7 +56,7 @@ data class Attraction(
         override fun newArray(size: Int): Array<Attraction?> {
             return arrayOfNulls(size)
         }
-        fun fromFirebaseAttraction(firebaseAttraction: FirebaseAttraction): Attraction {
+        private fun fromFirebaseAttraction(firebaseAttraction: FirebaseAttraction): Attraction {
             return Attraction(
                 attractionId = firebaseAttraction.attractionId,
                 cityId = firebaseAttraction.cityId,
@@ -92,10 +87,30 @@ data class Attraction(
     }
 }
 
-// Firebase-friendly format for Attraction
+@IgnoreExtraProperties
 data class FirebaseAttraction(
     var attractionId: String = "",
     var cityId: String = "",
     var name: String = "",
     var isChecked: Boolean = false
-)
+) {
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "attractionId" to attractionId,
+            "cityId" to cityId,
+            "name" to name,
+            "isChecked" to isChecked
+        )
+    }
+    companion object {
+        private fun fromAttraction(attraction: Attraction): FirebaseAttraction {
+            return FirebaseAttraction(
+                attractionId = attraction.attractionId,
+                cityId = attraction.cityId,
+                name = attraction.name,
+                isChecked = attraction.isChecked
+            )
+        }
+    }
+}

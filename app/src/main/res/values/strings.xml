@@ -28,4 +28,11 @@
     <string name="hotel_inn_two_dots">Hotel/Inn:</string>
     <string name="add_your_stay">Add your stay</string>
     <string name="planning_two_dots">Planning:</string>
+
+    <!-- New Strings for Attraction Editing -->
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="attraction_name_hint">Attraction Name</string>
+    <string name="attraction_details">Attraction Details</string>
+    <string name="attraction_visited_checkbox">Visited</string>
 </resources>

@@ -23,6 +23,3 @@ class CityAdapter(private val context: Context, private val arrayList: ArrayList
         return view
     }
 }
-
-
-

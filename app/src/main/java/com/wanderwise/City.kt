@@ -128,6 +128,3 @@ data class FirebaseCity(
         }
     }
 }
-
-
-

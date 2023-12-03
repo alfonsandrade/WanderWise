@@ -6,22 +6,9 @@
     android:padding="16dp"
     android:background="@color/DeepBlue">
 
-    <EditText
-        android:id="@+id/searchText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="@string/enter_a_place_you_want_to_go_to"
-        android:autofillHints="text"
-        android:inputType="text"
-        android:background="@color/AquaBlue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.05"/>
+    <!--android:background="@drawable/edit_text_background"-->
 
-
-    <ImageView
+    <!--ImageView
         android:id="@+id/icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -31,7 +18,24 @@
         app:layout_constraintBottom_toBottomOf="@id/searchText"
         app:layout_constraintTop_toTopOf="@id/searchText"
         app:layout_constraintEnd_toEndOf="@+id/searchText"
-        app:layout_constraintHorizontal_bias="0.05" />
+        app:layout_constraintHorizontal_bias="0.05" /-->
+
+    <EditText
+        android:id="@+id/attractionNameEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
+        android:hint="@string/attraction_name_hint"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/attractionCheckbox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/listActivitiesBtn"
@@ -47,5 +51,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95"
         app:rippleColor="@color/DarkerButtonBlue" />
+
+    <Button
+        android:id="@+id/saveAttractionButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+        app:layout_constraintTop_toBottomOf="@id/attractionCheckbox" />
+
+    <Button
+        android:id="@+id/cancelAttractionButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        app:layout_constraintStart_toEndOf="@+id/guidelineCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attractionCheckbox" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <CheckBox
+        android:id="@+id/attractionCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/attraction_visited_checkbox"
+        android:textColor="@color/black"
+        android:buttonTint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/centerGuide"
+        app:layout_constraintBottom_toTopOf="@+id/saveAttractionButton"
+        android:layout_marginTop="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

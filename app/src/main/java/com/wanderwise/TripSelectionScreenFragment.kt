@@ -106,5 +106,4 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         }
         database.addValueEventListener(tripsEventListener)
     }
-
 }

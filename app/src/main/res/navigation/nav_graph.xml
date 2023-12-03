@@ -73,6 +73,7 @@
         <action
             android:id="@+id/action_to_new_attraction"
             app:destination="@id/newAttractionScreenFragment" />
+
     </fragment>
 
     <fragment
@@ -90,5 +91,8 @@
         android:name="com.wanderwise.AttractionEditingFragment"
         android:label="Attraction Editing"
         tools:layout="@layout/activity_attraction_selection" >
+        <action
+            android:id="@+id/action_to_attraction_selection"
+            app:destination="@id/attractionSelectionScreenFragment" />
     </fragment>
 </navigation>

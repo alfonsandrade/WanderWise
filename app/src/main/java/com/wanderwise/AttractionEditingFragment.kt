@@ -1,16 +1,55 @@
 package com.wanderwise
+
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.database.FirebaseDatabase
 
-class AttractionEditingFragment: Fragment(R.layout.activity_attraction_editing){
+class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing) {
+    private lateinit var attraction: Attraction
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activityEditingButton: Button = view.findViewById(R.id.activity_editing_button)
-        activityEditingButton.setOnClickListener {
-            findNavController().navigate(R.id.action_to_edit_attraction)
+        val saveButton: Button = view.findViewById(R.id.saveAttractionButton)
+        val cancelButton: Button = view.findViewById(R.id.cancelAttractionButton)
+        val attractionName: EditText = view.findViewById(R.id.attractionNameEditText)
+        val attractionCheckbox: CheckBox = view.findViewById(R.id.attractionCheckbox)
+
+        val attractionArg = arguments?.getParcelable<Attraction>("selectedAttraction")
+        if (attractionArg != null) {
+            attraction = attractionArg
+            attractionName.setText(attraction.name)
+            attractionCheckbox.isChecked = attraction.getIsChecked()
+
+            saveButton.setOnClickListener {
+                attraction.name = attractionName.text.toString()
+                attraction.setIsChecked(attractionCheckbox.isChecked)
+                saveAttractionToFirebase(attraction)
+            }
+        }else {
+            // Handle the case where attraction is not passed
+            Log.e("AttractionEditingFragment", "Attraction not found in arguments")
+            // Optionally, navigate back or show an error message
+        }
+
+        cancelButton.setOnClickListener {
+            findNavController().navigate(R.id.action_to_attraction_selection)
+        }
+    }
+
+    fun saveAttractionToFirebase(attraction: Attraction) {
+        val database = FirebaseDatabase.getInstance().reference.child("attractions")
+        database.child(attraction.attractionId).setValue(attraction.toFirebaseAttraction()).addOnCompleteListener { task ->
+            if (task.isSuccessful && isAdded) {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("updatedAttraction", attraction)
+                findNavController().navigate(R.id.action_to_attraction_selection)
+            }
         }
     }
 }

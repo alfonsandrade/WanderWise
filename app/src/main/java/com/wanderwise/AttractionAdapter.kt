@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.TextView
+import com.google.firebase.database.*
 
 class AttractionAdapter(context: Context, private val attractions: ArrayList<Attraction>) :
     ArrayAdapter<Attraction>(context, R.layout.attraction_list_item, attractions) {
@@ -31,16 +32,23 @@ class AttractionAdapter(context: Context, private val attractions: ArrayList<Att
         }
 
         val attraction = attractions[position]
-        if (attraction != null) {
-            viewHolder.attractionName.text = attraction.name
-            viewHolder.attractionCheckbox.isChecked = attraction.getIsChecked()
+        viewHolder.attractionName.text = attraction.name  // Set the name of the attraction
+        viewHolder.attractionCheckbox.isChecked = attraction.isChecked
 
-            viewHolder.attractionCheckbox.setOnClickListener {
-                attraction.setIsChecked(viewHolder.attractionCheckbox.isChecked)
-                // Optionally, update Firebase here if needed
-            }
+        viewHolder.attractionCheckbox.setOnClickListener {
+            val isChecked = viewHolder.attractionCheckbox.isChecked
+            attraction.isChecked = isChecked
+            updateAttractionInFirebase(attraction)
         }
 
         return view ?: LayoutInflater.from(context).inflate(R.layout.attraction_list_item, parent, false)
+    }
+
+    private fun updateAttractionInFirebase(attraction: Attraction) {
+        val database = FirebaseDatabase.getInstance().reference.child("attractions")
+        database.child(attraction.attractionId)
+            .setValue(attraction.toFirebaseAttraction())
+            .addOnFailureListener {
+            }
     }
 }
