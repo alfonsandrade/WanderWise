@@ -63,7 +63,7 @@ data class City(
 @IgnoreExtraProperties
 data class FirebaseCity(
     var cityId: String = "",
-    var tripId: String = "", // Linking City with its parent Trip
+    var tripId: String = "",
     var name: String = "",
     var hotelName: String = "",
     var fromDateStr: String? = null,
@@ -89,8 +89,8 @@ data class FirebaseCity(
                 tripId = this.tripId,
                 name = this.name,
                 hotelName = this.hotelName,
-                fromDateStr = this.fromDateStr,  // Use the string directly
-                toDateStr = this.toDateStr,      // Use the string directly
+                fromDateStr = this.fromDateStr,
+                toDateStr = this.toDateStr,
                 description = this.description
             )
         }

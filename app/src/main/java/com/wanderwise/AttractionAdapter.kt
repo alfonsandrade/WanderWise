@@ -32,7 +32,7 @@ class AttractionAdapter(context: Context, private val attractions: ArrayList<Att
         }
 
         val attraction = attractions[position]
-        viewHolder.attractionName.text = attraction.name  // Set the name of the attraction
+        viewHolder.attractionName.text = attraction.name
         viewHolder.attractionCheckbox.isChecked = attraction.isChecked
 
         viewHolder.attractionCheckbox.setOnClickListener {

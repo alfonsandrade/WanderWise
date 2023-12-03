@@ -33,9 +33,7 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
                 saveAttractionToFirebase(attraction)
             }
         }else {
-            // Handle the case where attraction is not passed
             Log.e("AttractionEditingFragment", "Attraction not found in arguments")
-            // Optionally, navigate back or show an error message
         }
 
         cancelButton.setOnClickListener {
