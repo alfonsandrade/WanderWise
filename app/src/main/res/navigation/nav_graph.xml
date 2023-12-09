@@ -14,7 +14,25 @@
             app:destination="@id/tripSelectionScreenFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_signup_data_fill"
+            app:destination="@id/signup_data_fill_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
+
+    <fragment
+        android:id="@+id/signup_data_fill_fragment"
+        android:name="com.wanderwise.SignUpFragment"
+        android:label="Login"
+        tools:layout="@layout/activity_signup_data_fill">
+    <action
+        android:id="@+id/action_to_login_screen"
+        app:destination="@id/loginScreenFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/tripSelectionScreenFragment"

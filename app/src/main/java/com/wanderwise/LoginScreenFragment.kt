@@ -14,9 +14,14 @@ class LoginScreenFragment : Fragment(R.layout.activity_login) {
         val emailEditText: EditText = view.findViewById(R.id.email_edit_text)
         val passwordEditText: EditText = view.findViewById(R.id.password_edit_text)
         val loginButton: Button = view.findViewById(R.id.login_button)
+        val signUpButton: Button = view.findViewById(R.id.singUp_button)
 
         loginButton.setOnClickListener {
             findNavController().navigate(R.id.action_to_tripSelection)
+        }
+
+        signUpButton.setOnClickListener {
+            findNavController().navigate(R.id.action_signup_data_fill)
         }
     }
 }

@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">WanderWise</string>
-    <string name="name">Alfons</string>
-    <string name="login_icon_description">Login Screen Icon</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="login">Login</string>
     <string name="city">City</string>
     <string name="trip">Trip</string>
     <string name="activity">Activity</string>
@@ -29,10 +24,21 @@
     <string name="add_your_stay">Add your stay</string>
     <string name="planning_two_dots">Planning:</string>
 
-    <!-- New Strings for Attraction Editing -->
+    <!-- Login Screen -->
+    <string name="login_icon_description">Login Screen Icon</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
+
+    <!-- Sign Up Screen -->
+    <string name="name">Name</string>
+
+    <!-- Attraction Editing -->
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="attraction_name_hint">Attraction Name</string>
     <string name="attraction_details">Attraction Details</string>
     <string name="attraction_visited_checkbox">Visited</string>
+
 </resources>
