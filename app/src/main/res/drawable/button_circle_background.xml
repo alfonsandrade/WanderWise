@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/light_blue"/> <!-- Filled background color -->
+    <!-- OR use a stroke for just a border and transparent background -->
+    <!-- <stroke android:color="@color/button_edge_color" android:width="2dp" /> -->
+    <corners android:radius="28dp" />
+</shape>

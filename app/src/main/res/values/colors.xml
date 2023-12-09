@@ -26,4 +26,7 @@
     <color name="BlueViolet1">#ffaeb4fd</color>
     <color name="BlueViolet2">#ff9fa5fe</color>
     <color name="BlueViolet3">#ff8f98fd</color>
+    <color name="light_gray">#D3D3D3</color> <!-- Light gray for the underline -->
+    <color name="light_blue">#007AFF</color> <!-- Light blue for buttons, inspired by Apple's design -->
+    <color name="ripple_color">#66007AFF</color>
 </resources>
