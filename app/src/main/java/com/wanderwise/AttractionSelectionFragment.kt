@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 
@@ -30,7 +31,7 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
             cityId = it
         } ?: loadAttractionsForCityFromArguments()
 
-        val addNewAttractionButton: Button = view.findViewById(R.id.addActivityBtn)
+        val addNewAttractionButton: ImageButton = view.findViewById(R.id.addActivityBtn)
         addNewAttractionButton.setOnClickListener {
             cityId?.let { cityId ->
                 val bundle = bundleOf("cityId" to cityId)
