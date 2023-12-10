@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
@@ -16,8 +17,8 @@ class NewAttractionFragment : Fragment(R.layout.activity_new_attraction) {
         super.onViewCreated(view, savedInstanceState)
         cityId = arguments?.getString("cityId") ?: ""
 
-        val saveButton: Button = view.findViewById(R.id.saveAttractionButton)
-        val cancelButton: Button = view.findViewById(R.id.cancelAttractionButton)
+        val saveButton: ImageButton = view.findViewById(R.id.confirm_button)
+        val cancelButton: ImageButton = view.findViewById(R.id.back_button)
         val attractionName: EditText = view.findViewById(R.id.attractionNameEditText)
         val attractionCheckbox: CheckBox = view.findViewById(R.id.attractionCheckbox)
 
