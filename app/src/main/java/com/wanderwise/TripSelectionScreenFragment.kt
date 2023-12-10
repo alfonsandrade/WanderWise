@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ListView
 import androidx.core.os.bundleOf
 import android.widget.Toast
@@ -27,7 +28,7 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val addTripBtn: Button = view.findViewById(R.id.addTripBtn) ?: return
+        val addTripBtn: ImageButton = view.findViewById(R.id.addTripBtn) ?: return
         listView = view.findViewById(R.id.tripsListView)
         val newTrip = arguments?.getParcelable<Trip>("newTrip")
         newTrip?.let {
