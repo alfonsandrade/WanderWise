@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ListView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -40,7 +41,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection) {
     }
 
     private fun setupAddCityButton(view: View) {
-        val addCityBtn: Button = view.findViewById(R.id.addCityBtn)
+        val addCityBtn: ImageButton = view.findViewById(R.id.addCityBtn)
         addCityBtn.setOnClickListener {
             val bundle = bundleOf("tripId" to tripId)
             findNavController().navigate(R.id.action_to_newCity, bundle)
