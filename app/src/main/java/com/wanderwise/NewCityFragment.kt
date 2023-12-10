@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,7 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val submitBtn: Button = view.findViewById(R.id.submitBtn)
+        val submitBtn: ImageButton = view.findViewById(R.id.confirm_button)
         val cityName: EditText = view.findViewById(R.id.cityNameText)
         val hotelName: EditText = view.findViewById(R.id.hotelName)
         val fromDate: EditText = view.findViewById(R.id.fromDate)
@@ -36,9 +37,7 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
                     toDate.text.toString(),
                     description.text.toString()
                 )
-
                 saveCityToFirebase(newCity)
-
             }
         }
     }

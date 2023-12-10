@@ -48,8 +48,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
         tools:listitem="@layout/city_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

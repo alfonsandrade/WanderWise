@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@color/DeepBlue">
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline90"
@@ -31,101 +31,106 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.7" />
 
+
     <ImageView
-        android:id="@+id/imageLoginIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:contentDescription="@string/login_icon_description"
+        android:id="@+id/imageTripIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/icon_login_screen"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.05"
-        app:layout_constraintDimensionRatio="12:5"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/cityNameText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+        style="@style/EditTextStyle"
+        android:textColorHint="@color/light_gray"
         android:hint="@string/city_name"
-        android:autofillHints="text"
-        android:inputType="text"
-        android:background="@color/AquaBlue"
+        android:inputType="textPersonName"
+        android:background="@drawable/edittext_underline"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/imageTripIcon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageLoginIcon"
-        app:layout_constraintBottom_toTopOf="@+id/fromDate"
-        app:layout_constraintVertical_bias="0.5"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/fromDate"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:autofillHints=""
+        style="@style/EditTextStyle"
+        android:hint="@string/from_date"
+        android:textColorHint="@color/light_gray"
         android:inputType="date"
-        android:background="@color/AquaBlue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/toDate"
+        android:background="@drawable/edittext_underline"
+        android:padding="12dp"
         app:layout_constraintTop_toBottomOf="@+id/cityNameText"
-        app:layout_constraintBottom_toTopOf="@+id/guideline60"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.5"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline60"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/toDate"
-        android:layout_width="140dp"
-        android:layout_height="50dp"
-        android:autofillHints=""
+        style="@style/EditTextStyle"
+        android:hint="@string/to_date"
+        android:textColorHint="@color/light_gray"
         android:inputType="date"
-        android:background="@color/AquaBlue"
-        app:layout_constraintStart_toEndOf="@id/fromDate"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/edittext_underline"
+        android:padding="12dp"
         app:layout_constraintTop_toBottomOf="@+id/cityNameText"
-        app:layout_constraintBottom_toTopOf="@+id/guideline60"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.5"/>
+        app:layout_constraintStart_toEndOf="@+id/guideline60"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/hotelName"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+        style="@style/EditTextStyle"
         android:hint="@string/hotel_inn"
-        android:autofillHints="text"
-        android:inputType="text"
-        android:background="@color/AquaBlue"
+        android:textColorHint="@color/light_gray"
+        android:inputType="textPersonName"
+        android:background="@drawable/edittext_underline"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/toDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline60"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/descriptionText"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
+        style="@style/EditTextStyle"
         android:hint="@string/optional_description"
-        android:inputType="text"
-        android:background="@color/AquaBlue"
+        android:textColorHint="@color/light_gray"
+        android:inputType="textMultiLine"
+        android:background="@drawable/edittext_underline"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/hotelName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hotelName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.1"/>
+        android:layout_marginTop="16dp"/>
 
-    <Button
-        android:id="@+id/submitBtn"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:clickable="true"
-        android:background="@color/ButtonBlue"
-        android:text="@string/submit"
-        app:layout_constraintStart_toStartOf="@id/guidelineVert25"
-        app:layout_constraintEnd_toEndOf="@id/guidelineVert75"
-        app:layout_constraintTop_toBottomOf="@id/descriptionText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.5"
-        app:rippleColor="@color/DarkerButtonBlue"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        style="@style/CircularButtonStyle"
+        android:src="@drawable/back_arrow"
+        app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
+        app:layout_constraintEnd_toStartOf="@id/confirm_button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <ImageButton
+        android:id="@+id/confirm_button"
+        style="@style/CircularButtonStyle"
+        android:src="@drawable/verified"
+        app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
+        app:layout_constraintStart_toEndOf="@id/back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
