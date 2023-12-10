@@ -42,5 +42,7 @@
     <string name="attraction_visited_checkbox">Visited</string>
     <string name="from_date">DD/MM/YYYY</string>
     <string name="to_date">DD/MM/YYYY</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
 </resources>

@@ -23,6 +23,7 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
         val attractionCheckbox: CheckBox = view.findViewById(R.id.attractionCheckbox)
 
         val attractionArg = arguments?.getParcelable<Attraction>("selectedAttraction")
+        val cityId = arguments?.getString("cityId")
         if (attractionArg != null) {
             attraction = attractionArg
             attractionName.setText(attraction.name)
@@ -31,7 +32,7 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
             saveButton.setOnClickListener {
                 attraction.name = attractionName.text.toString()
                 attraction.setIsChecked(attractionCheckbox.isChecked)
-                saveAttractionToFirebase(attraction)
+                saveAttractionToFirebase(attraction, cityId ?: "")
             }
         }else {
             Log.e("AttractionEditingFragment", "Attraction not found in arguments")
@@ -42,12 +43,12 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
         }
     }
 
-    fun saveAttractionToFirebase(attraction: Attraction) {
+    private fun saveAttractionToFirebase(attraction: Attraction, cityId: String) {
         val database = FirebaseDatabase.getInstance().reference.child("attractions")
         database.child(attraction.attractionId).setValue(attraction.toFirebaseAttraction()).addOnCompleteListener { task ->
             if (task.isSuccessful && isAdded) {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set("updatedAttraction", attraction)
-                findNavController().navigate(R.id.action_to_attraction_selection)
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("newAttraction", attraction)
+                findNavController().popBackStack()
             }
         }
     }
