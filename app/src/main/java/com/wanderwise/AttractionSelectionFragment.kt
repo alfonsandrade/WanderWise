@@ -9,6 +9,8 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import android.widget.PopupMenu
+
 
 import com.google.firebase.database.*
 import androidx.navigation.fragment.findNavController
@@ -53,10 +55,31 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
         val adapter = AttractionAdapter(requireContext(), attractionList)
         listView.adapter = adapter
 
-        listView.setOnItemClickListener { _, _, position, _ ->
+        // Navigates to EditAttractionFragment when an attraction is clicked for a long time
+        listView.isLongClickable = true
+        listView.setOnItemLongClickListener { _, _, position, _ ->
             val selectedAttraction = attractionList[position]
-            val bundle = bundleOf("selectedAttraction" to selectedAttraction)
-            findNavController().navigate(R.id.action_to_edit_attraction, bundle)
+
+            // Creates a popup menu with the options to edit or delete the attraction
+            val popup = PopupMenu(requireContext(), listView)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.editAttraction -> {
+                        val bundle = bundleOf("selectedAttraction" to selectedAttraction)
+                        bundle.putString("cityId", cityId)
+                        findNavController().navigate(R.id.action_to_edit_attraction, bundle)
+                    }
+                    R.id.deleteAttraction -> {
+                        attractionList.remove(selectedAttraction)
+                        (listView.adapter as? AttractionAdapter)?.notifyDataSetChanged()
+                        database.child(selectedAttraction.attractionId).removeValue()
+                    }
+                }
+                true
+            }
+            popup.menuInflater.inflate(R.menu.attraction_popup, popup.menu)
+            popup.show()
+            true
         }
     }
 
