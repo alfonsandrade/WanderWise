@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,7 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val submitBtn:   Button   = view.findViewById(R.id.submitBtn)
+        val submitBtn:   ImageButton = view.findViewById(R.id.confirm_button)
         val tripName:    EditText = view.findViewById(R.id.tripNameText)
         val fromDate:    EditText = view.findViewById(R.id.fromDate)
         val toDate:      EditText = view.findViewById(R.id.toDate)
