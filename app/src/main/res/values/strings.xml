@@ -44,5 +44,6 @@
     <string name="to_date">DD/MM/YYYY</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="permission_level">Permission Level</string>
 
 </resources>
