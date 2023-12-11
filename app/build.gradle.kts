@@ -88,4 +88,8 @@ dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
     implementation ("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
     implementation ("com.google.android.material:material:1.9.0")
+
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
+    implementation ("com.google.android.libraries.places:places:2.7.0")
+
 }
