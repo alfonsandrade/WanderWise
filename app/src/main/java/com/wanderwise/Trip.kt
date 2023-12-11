@@ -8,6 +8,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.FirebaseDatabase
 data class Trip(
     var tripId: String = "",
+    var userId: String = "",
     var name: String = "",
     var fromDate: LocalDate?,
     var toDate: LocalDate?,
@@ -19,6 +20,7 @@ data class Trip(
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readString()!!,
         parcel.readSerializable() as? LocalDate,
         parcel.readSerializable() as? LocalDate,
         parcel.readString()!!,
@@ -26,6 +28,8 @@ data class Trip(
     )
 
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
+        parcel.writeString(tripId)
+        parcel.writeString(userId)
         parcel.writeString(name)
         parcel.writeSerializable(fromDate)
         parcel.writeSerializable(toDate)
@@ -53,6 +57,7 @@ data class Trip(
 
             return Trip(
                 tripId = firebaseTrip.tripId,
+                userId = firebaseTrip.userId,
                 name = firebaseTrip.name,
                 fromDate = fromDate,
                 toDate = toDate,
@@ -67,6 +72,7 @@ data class Trip(
     fun toFirebaseTrip(): FirebaseTrip {
         return FirebaseTrip(
             tripId = this.tripId,
+            userId = this.userId,
             name = this.name,
             fromDateStr = this.fromDate?.format(DATE_FORMAT),
             toDateStr = this.toDate?.format(DATE_FORMAT),
@@ -78,6 +84,7 @@ data class Trip(
 @IgnoreExtraProperties
 data class FirebaseTrip(
     var tripId: String = "",
+    var userId: String = "",
     var name: String = "",
     var fromDateStr: String? = null,
     var toDateStr: String? = null,
@@ -88,6 +95,7 @@ data class FirebaseTrip(
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "tripId" to tripId,
+            "userId" to userId,
             "name" to name,
             "fromDateStr" to fromDateStr,
             "toDateStr" to toDateStr,
@@ -98,6 +106,7 @@ data class FirebaseTrip(
     fun Trip.toFirebaseTrip(): FirebaseTrip {
         return FirebaseTrip(
             tripId = this.tripId,
+            userId = this.userId,
             name = this.name,
             fromDateStr = this.fromDate?.format(DATE_FORMAT),
             toDateStr = this.toDate?.format(DATE_FORMAT),
@@ -127,6 +136,7 @@ data class FirebaseTrip(
 
             return Trip(
                 tripId = firebaseTrip.tripId,
+                userId = firebaseTrip.userId,
                 name = firebaseTrip.name,
                 fromDate = fromDate,
                 toDate = toDate,

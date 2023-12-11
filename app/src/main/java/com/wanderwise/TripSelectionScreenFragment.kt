@@ -19,7 +19,7 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     private lateinit var database: DatabaseReference
     private lateinit var listView: ListView
     private lateinit var tripsEventListener: ValueEventListener
-    private var isTripsLoaded = false
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,24 +30,9 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         super.onViewCreated(view, savedInstanceState)
         val addTripBtn: ImageButton = view.findViewById(R.id.addTripBtn) ?: return
         listView = view.findViewById(R.id.tripsListView)
-        val newTrip = arguments?.getParcelable<Trip>("newTrip")
-        newTrip?.let {
-            if (!tripList.any { trip -> trip.tripId == it.tripId }) {
-                storeTripToFirebase(it)
-                tripList.add(it)
-            }
-            arguments?.remove("newTrip")
-        }
-        try {
-            val bundle: Bundle = requireArguments()
-            treatReceivedData(bundle)
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        }
-        if (!isTripsLoaded) {
-            loadTripsFromFirebase()
-            isTripsLoaded = true
-        }
+
+        loadTripsForUserFromFirebase()
+
         listView.adapter = TripAdapter(requireContext(), tripList)
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
@@ -57,22 +42,8 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         }
 
         addTripBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_to_newTrip)
-        }
-    }
-
-    private fun treatReceivedData(bundle: Bundle) {
-        val newTrip = bundle.getParcelable<Trip>("newTrip") ?: return
-        if (tripList.none { it.tripId == newTrip.tripId }) {
-            database.child(newTrip.tripId).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (!snapshot.exists()) {
-                        storeTripToFirebase(newTrip)
-                    }
-                }
-                override fun onCancelled(databaseError: DatabaseError) {
-                }
-            })
+            val bundle = bundleOf("userId" to userId)
+            findNavController().navigate(R.id.action_to_newTrip, bundle)
         }
     }
 
@@ -85,7 +56,9 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     private fun storeTripToFirebase(trip: Trip) {
         database.child(trip.tripId).setValue(trip.toFirebaseTrip())
     }
-    fun loadTripsFromFirebase() {
+    private fun loadTripsForUserFromFirebase() {
+        userId = arguments?.getString("userId") ?: return
+
         tripsEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tripList.clear()
@@ -105,6 +78,6 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
                 Log.e("TripSelectionScreen", "Firebase Database Error: ${databaseError.message}")
             }
         }
-        database.addValueEventListener(tripsEventListener)
+        database.orderByChild("userId").equalTo(userId).addValueEventListener(tripsEventListener)
     }
 }

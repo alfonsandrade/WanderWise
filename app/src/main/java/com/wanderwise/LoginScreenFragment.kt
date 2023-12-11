@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.widget.EditText
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -44,7 +45,8 @@ class LoginScreenFragment : Fragment(R.layout.activity_login) {
                 if (snapshot.exists()) {
                     val user = snapshot.children.iterator().next()
                     if (user.child("password").value == password) {
-                        findNavController().navigate(R.id.action_to_tripSelection)
+                        val bundle = bundleOf("userId" to user.child("userId").value.toString())
+                        findNavController().navigate(R.id.action_to_tripSelection, bundle)
                     }
                     else {
                         passwordEditText.text.clear()
