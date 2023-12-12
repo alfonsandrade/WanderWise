@@ -89,6 +89,7 @@ dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
     implementation ("com.google.android.material:material:1.9.0")
 
-    // coil - Coroutine Image Loader
-    implementation("io.coil-kt:coil:1.1.1")
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
+    implementation ("com.google.android.libraries.places:places:2.7.0")
+
 }
