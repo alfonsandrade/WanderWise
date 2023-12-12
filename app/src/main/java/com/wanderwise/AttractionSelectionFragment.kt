@@ -70,7 +70,8 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
                         findNavController().navigate(R.id.action_to_camera, bundle)
                     }
                     R.id.addPicture -> {
-
+                        val bundle = bundleOf("selectedAttraction" to selectedAttraction)
+                        findNavController().navigate(R.id.action_to_gallery, bundle)
                     }
                     R.id.editAttraction -> {
                         val bundle = bundleOf("selectedAttraction" to selectedAttraction)
