@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/takePicture"
+        android:title="@string/take_picture"/>
+    <item android:id="@+id/addPicture"
+        android:title="@string/add_picture_from_gallery"/>
     <item android:id="@+id/editAttraction"
         android:title="@string/edit"/>
     <item android:id="@+id/deleteAttraction"

@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_to_new_attraction"
             app:destination="@id/newAttractionScreenFragment" />
+        <action
+            android:id="@+id/action_to_camera"
+            app:destination="@id/cameraScreenFragment" />
 
     </fragment>
 
@@ -99,6 +102,16 @@
         android:name="com.wanderwise.NewAttractionFragment"
         android:label="New Attraction"
         tools:layout="@layout/activity_new_attraction" >
+        <action
+            android:id="@+id/action_to_attraction_selection"
+            app:destination="@id/attractionSelectionScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cameraScreenFragment"
+        android:name="com.wanderwise.CameraFragment"
+        android:label="Camera"
+        tools:layout="@layout/activity_camera" >
         <action
             android:id="@+id/action_to_attraction_selection"
             app:destination="@id/attractionSelectionScreenFragment" />

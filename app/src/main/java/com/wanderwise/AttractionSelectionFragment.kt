@@ -65,9 +65,15 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
             val popup = PopupMenu(requireContext(), listView)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
+                    R.id.takePicture -> {
+                        val bundle = bundleOf("selectedAttraction" to selectedAttraction)
+                        findNavController().navigate(R.id.action_to_camera, bundle)
+                    }
+                    R.id.addPicture -> {
+
+                    }
                     R.id.editAttraction -> {
                         val bundle = bundleOf("selectedAttraction" to selectedAttraction)
-                        bundle.putString("cityId", cityId)
                         findNavController().navigate(R.id.action_to_edit_attraction, bundle)
                     }
                     R.id.deleteAttraction -> {

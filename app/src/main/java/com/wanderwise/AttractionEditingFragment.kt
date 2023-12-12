@@ -23,7 +23,6 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
         val attractionCheckbox: CheckBox = view.findViewById(R.id.attractionCheckbox)
 
         val attractionArg = arguments?.getParcelable<Attraction>("selectedAttraction")
-        val cityId = arguments?.getString("cityId")
         if (attractionArg != null) {
             attraction = attractionArg
             attractionName.setText(attraction.name)
@@ -32,7 +31,7 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
             saveButton.setOnClickListener {
                 attraction.name = attractionName.text.toString()
                 attraction.setIsChecked(attractionCheckbox.isChecked)
-                saveAttractionToFirebase(attraction, cityId ?: "")
+                saveAttractionToFirebase(attraction)
             }
         }else {
             Log.e("AttractionEditingFragment", "Attraction not found in arguments")
@@ -43,7 +42,7 @@ class AttractionEditingFragment : Fragment(R.layout.activity_attraction_editing)
         }
     }
 
-    private fun saveAttractionToFirebase(attraction: Attraction, cityId: String) {
+    private fun saveAttractionToFirebase(attraction: Attraction) {
         val database = FirebaseDatabase.getInstance().reference.child("attractions")
         database.child(attraction.attractionId).setValue(attraction.toFirebaseAttraction()).addOnCompleteListener { task ->
             if (task.isSuccessful && isAdded) {

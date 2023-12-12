@@ -11,13 +11,15 @@ data class Attraction(
     var attractionId: String = "",
     var cityId: String = "",
     var name: String = "",
-    var isChecked: Boolean = false
+    var isChecked: Boolean = false,
+    var imageUrl: String = ""
 ) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString()!!
     )
     constructor() : this("", "", "", false)
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
@@ -25,6 +27,7 @@ data class Attraction(
         parcel.writeString(cityId)
         parcel.writeString(name)
         parcel.writeByte(if (isChecked) 1 else 0)
+        parcel.writeString(imageUrl)
     }
 
     override fun describeContents(): Int {
@@ -45,7 +48,8 @@ data class Attraction(
             attractionId = this.attractionId,
             cityId = this.cityId,
             name = this.name,
-            isChecked = this.isChecked
+            isChecked = this.isChecked,
+            imageUrl = this.imageUrl
         )
     }
 
@@ -61,7 +65,8 @@ data class Attraction(
                 attractionId = firebaseAttraction.attractionId,
                 cityId = firebaseAttraction.cityId,
                 name = firebaseAttraction.name,
-                isChecked = firebaseAttraction.isChecked
+                isChecked = firebaseAttraction.isChecked,
+                imageUrl = firebaseAttraction.imageUrl
             )
         }
 
@@ -92,7 +97,8 @@ data class FirebaseAttraction(
     var attractionId: String = "",
     var cityId: String = "",
     var name: String = "",
-    var isChecked: Boolean = false
+    var isChecked: Boolean = false,
+    var imageUrl: String = ""
 ) {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -100,7 +106,8 @@ data class FirebaseAttraction(
             "attractionId" to attractionId,
             "cityId" to cityId,
             "name" to name,
-            "isChecked" to isChecked
+            "isChecked" to isChecked,
+            "imageUrl" to imageUrl
         )
     }
     companion object {
@@ -109,7 +116,8 @@ data class FirebaseAttraction(
                 attractionId = attraction.attractionId,
                 cityId = attraction.cityId,
                 name = attraction.name,
-                isChecked = attraction.isChecked
+                isChecked = attraction.isChecked,
+                imageUrl = attraction.imageUrl
             )
         }
     }
