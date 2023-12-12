@@ -92,4 +92,8 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:18.0.0")
     implementation ("com.google.android.libraries.places:places:2.7.0")
 
+    implementation("com.google.firebase:firebase-core:21.1.1")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
+    implementation("com.squareup.picasso:picasso:2.8")
 }

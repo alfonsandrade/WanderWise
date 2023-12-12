@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 class GalleryFragment : Fragment(R.layout.activity_camera) {
     private lateinit var attraction: Attraction
@@ -69,12 +70,20 @@ class GalleryFragment : Fragment(R.layout.activity_camera) {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    val database = FirebaseDatabase.getInstance().reference.child("attractions")
-                    database.child(attraction.attractionId).setValue(attraction.toFirebaseAttraction()).addOnCompleteListener { task ->
-                        if (task.isSuccessful && isAdded) {
-                            findNavController().previousBackStackEntry?.savedStateHandle?.set("newAttraction", attraction)
-                            findNavController().popBackStack()
+                    val selectedImage = data?.data
+                    val imageBitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, selectedImage)
+                    val storage = FirebaseStorage.getInstance().reference.child("images")
+                    storage.child(attraction.attractionId).putFile(selectedImage!!).addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { url ->
+                            attraction.imageUrl = url.toString()
+                            // If image was uploaded, save image url to attraction instance in database
+                            val database = FirebaseDatabase.getInstance().reference.child("attractions")
+                            database.child(attraction.attractionId).setValue(attraction.toFirebaseAttraction()).addOnCompleteListener { task ->
+                                if (task.isSuccessful && isAdded) {
+                                    findNavController().previousBackStackEntry?.savedStateHandle?.set("newAttraction", attraction)
+                                    findNavController().popBackStack()
+                                }
+                            }
                         }
                     }
                 }

@@ -1,5 +1,6 @@
 package com.wanderwise
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import androidx.core.os.bundleOf
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import android.widget.PopupMenu
@@ -15,6 +17,7 @@ import android.widget.PopupMenu
 
 import com.google.firebase.database.*
 import androidx.navigation.fragment.findNavController
+import com.squareup.picasso.Picasso
 
 class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_selection) {
     private var cityId: String? = null
@@ -55,6 +58,20 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
     private fun setupListView() {
         val adapter = AttractionAdapter(requireContext(), attractionList)
         listView.adapter = adapter
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val selectedAttraction = attractionList[position]
+
+            if ("" != selectedAttraction.imageUrl) {
+                val dialog: Dialog = Dialog(requireContext())
+                dialog.setContentView(R.layout.popup_image)
+
+                val image : ImageView = dialog.findViewById(R.id.imageViewPopup)
+                Picasso.get().load(selectedAttraction.imageUrl).into(image)
+
+                dialog.show()
+            }
+        }
 
         // Navigates to EditAttractionFragment when an attraction is clicked for a long time
         listView.isLongClickable = true
