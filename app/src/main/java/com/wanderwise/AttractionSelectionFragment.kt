@@ -13,8 +13,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import android.widget.PopupMenu
-
-
+import android.widget.TextView
 import com.google.firebase.database.*
 import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
@@ -42,6 +41,11 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
                 val bundle = bundleOf("cityId" to cityId)
                 findNavController().navigate(R.id.action_to_new_attraction, bundle)
             }
+        }
+
+        val hotelNameEditText: TextView = view.findViewById(R.id.hotelEditText)
+        arguments?.getString("hotelName")?.let {
+            hotelNameEditText.text = it
         }
     }
 
@@ -73,12 +77,9 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
             }
         }
 
-        // Navigates to EditAttractionFragment when an attraction is clicked for a long time
         listView.isLongClickable = true
         listView.setOnItemLongClickListener { _, _, position, _ ->
             val selectedAttraction = attractionList[position]
-
-            // Creates a popup menu with the options to edit or delete the attraction
             val popup = PopupMenu(requireContext(), listView)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {

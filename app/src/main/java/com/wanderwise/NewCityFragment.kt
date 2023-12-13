@@ -4,23 +4,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.Status
-import com.google.android.libraries.places.api.Places
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.database.FirebaseDatabase
-import java.time.format.DateTimeFormatter
+import com.google.android.libraries.places.api.Places
 
-class NewCityFragment : Fragment(R.layout.activity_new_city) {
-    private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    private var selectedHotelName: String? = null // New variable to hold the selected hotel name
+class NewCityFragment : Fragment(R.layout.activity_new_city){
+    private var selectedHotelName: String? = null
+    private var selectedHotelCoordinates: LatLng? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,12 +32,13 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
 
         submitBtn.setOnClickListener {
             if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
-                // Use the selectedHotelName for the hotel name
                 val newCity = City(
                     "",
                     tripId,
                     cityName.text.toString(),
                     selectedHotelName.orEmpty(),
+                    selectedHotelCoordinates?.latitude,
+                    selectedHotelCoordinates?.longitude,
                     fromDate.text.toString(),
                     toDate.text.toString(),
                     description.text.toString()
@@ -49,67 +49,25 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
 
         val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_hotel_fragment)
                 as AutocompleteSupportFragment
-
         autocompleteFragment.apply {
-            setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+            setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
             setTypeFilter(TypeFilter.ESTABLISHMENT)
             setHint(getString(R.string.hotel_inn))
             setOnPlaceSelectedListener(object : PlaceSelectionListener {
                 override fun onPlaceSelected(place: Place) {
                     selectedHotelName = place.name
+                    selectedHotelCoordinates = place.latLng
                 }
-
-                override fun onError(status: Status) {
-                    // TODO: Handle the error.
-                }
+                override fun onError(status: Status) {}
             })
         }
-
-        autocompleteFragment.view?.post {
-            val autocompleteEditText = autocompleteFragment.view?.findViewById<View>(
-                com.google.android.libraries.places.R.id.places_autocomplete_search_input
-            ) as? EditText
-
-            val searchIcon = autocompleteFragment.view?.findViewById<View>(
-                com.google.android.libraries.places.R.id.search_mag_icon
-            )
-            searchIcon?.visibility = View.GONE
-
-            val clearButton = autocompleteFragment.view?.findViewById<View>(
-                com.google.android.libraries.places.R.id.places_autocomplete_clear_button
-            )
-            clearButton?.visibility = View.GONE
-        }
-
-        view.post {
-            customizeAutocompleteFragment(autocompleteFragment)
-        }
-
-        submitBtn.setOnClickListener {
-            if (fromDate.text.toString().isNotEmpty() && toDate.text.toString().isNotEmpty()) {
-                val newCity = City(
-                    "",
-                    tripId,
-                    cityName.text.toString(),
-                    selectedHotelName.orEmpty(),
-                    fromDate.text.toString(),
-                    toDate.text.toString(),
-                    description.text.toString()
-                )
-                saveCityToFirebase(newCity)
-            }
-        }
+        customizeAutocompleteFragment(autocompleteFragment)
     }
 
     private fun customizeAutocompleteFragment(fragment: AutocompleteSupportFragment) {
         val fragmentView = fragment.view as? LinearLayout ?: return
-
         for (i in 0 until fragmentView.childCount) {
-            val child = fragmentView.getChildAt(i)
-            when (child) {
-                is ImageView -> {
-                    child.visibility = View.GONE
-                }
+            when (val child = fragmentView.getChildAt(i)) {
                 is EditText -> {
                     child.apply {
                         setBackgroundResource(R.drawable.edittext_underline)
@@ -124,15 +82,18 @@ class NewCityFragment : Fragment(R.layout.activity_new_city) {
 
     private fun saveCityToFirebase(city: City) {
         val database = FirebaseDatabase.getInstance().reference.child("cities")
-        val key = database.push().key
-        key?.let {
-            city.cityId = it
-            database.child(key).setValue(city.toFirebaseCity()).addOnCompleteListener { task ->
-                if (task.isSuccessful && isAdded) {
-                    findNavController().previousBackStackEntry?.savedStateHandle?.set("newCity", city)
-                    findNavController().popBackStack()
-                }
+        val key = database.push().key ?: return
+        city.cityId = key
+        val firebaseCity = city.toFirebaseCity()
+
+        database.child(key).setValue(firebaseCity).addOnCompleteListener { task ->
+            if (task.isSuccessful && isAdded) {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("newCity", city)
+                findNavController().popBackStack()
+            } else {
+                Toast.makeText(requireContext(), "Error on database save", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 }

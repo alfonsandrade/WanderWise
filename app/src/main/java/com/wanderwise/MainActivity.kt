@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         if (!Places.isInitialized()) {
-            Places.initialize(getApplicationContext(), "YOUR_API_KEY")
+            Places.initialize(getApplicationContext(), "AIzaSyCAGOedlVdn-qEHn1eDJ9jswmqcRMbnPFo")
         }
         navController = navHostFragment.navController
         setupActionBarWithNavController(navController)

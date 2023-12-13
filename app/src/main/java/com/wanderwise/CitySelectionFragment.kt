@@ -10,9 +10,15 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
 
-class CitySelectionFragment : Fragment(R.layout.activity_city_selection) {
+class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
     private lateinit var tripId: String
     private lateinit var listView: ListView
     private lateinit var database: DatabaseReference
@@ -37,9 +43,14 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection) {
         cityList = ArrayList()
         val adapter = CityAdapter(requireContext(), cityList)
         listView.adapter = adapter
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, position, _ ->
             val selectedCity = cityList[position]
-            val bundle = bundleOf("selectedCity" to selectedCity)
+            val bundle = bundleOf(
+                "selectedCity" to selectedCity,
+                "hotelName" to selectedCity?.hotelName,
+                "hotelLat" to selectedCity?.hotelLat,
+                "hotelLng" to selectedCity?.hotelLng
+            )
             findNavController().navigate(R.id.action_to_attraction_selection, bundle)
         }
     }
