@@ -11,15 +11,19 @@ data class City(
     var tripId: String = "",
     var name: String = "",
     var hotelName: String = "",
+    var hotelLat: Double? = null,
+    var hotelLng: Double? = null,
     var fromDateStr: String? = null,
     var toDateStr: String? = null,
-    var description: String = "",
+    var description: String = ""
 ) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readDouble()!!,
+        parcel.readDouble()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -44,11 +48,14 @@ data class City(
             tripId = this.tripId,
             name = this.name,
             hotelName = this.hotelName,
+            hotelLat = this.hotelLat,
+            hotelLng = this.hotelLng,
             fromDateStr = this.fromDateStr,
             toDateStr = this.toDateStr,
             description = this.description
         )
     }
+
     companion object CREATOR : Parcelable.Creator<City> {
         override fun createFromParcel(parcel: android.os.Parcel): City {
             return City(parcel)
@@ -66,9 +73,11 @@ data class FirebaseCity(
     var tripId: String = "",
     var name: String = "",
     var hotelName: String = "",
+    var hotelLat: Double? = null,
+    var hotelLng: Double? = null,
     var fromDateStr: String? = null,
     var toDateStr: String? = null,
-    var description: String = "",
+    var description: String = ""
 ) {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -77,6 +86,8 @@ data class FirebaseCity(
             "tripId" to tripId,
             "name" to name,
             "hotelName" to hotelName,
+            "hotelLat" to hotelLat,
+            "hotelLng" to hotelLng,
             "fromDateStr" to fromDateStr,
             "toDateStr" to toDateStr,
             "description" to description
@@ -89,6 +100,8 @@ data class FirebaseCity(
                 tripId = this.tripId,
                 name = this.name,
                 hotelName = this.hotelName,
+                hotelLat = this.hotelLat,
+                hotelLng = this.hotelLng,
                 fromDateStr = this.fromDateStr,
                 toDateStr = this.toDateStr,
                 description = this.description
@@ -101,6 +114,8 @@ data class FirebaseCity(
                 tripId = firebaseCity.tripId,
                 name = firebaseCity.name,
                 hotelName = firebaseCity.hotelName,
+                hotelLat = firebaseCity.hotelLat,
+                hotelLng = firebaseCity.hotelLng,
                 fromDateStr = firebaseCity.fromDateStr,
                 toDateStr = firebaseCity.toDateStr,
                 description = firebaseCity.description

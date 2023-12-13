@@ -62,17 +62,17 @@
 
         <ImageView
             android:id="@+id/hotelIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/lupe_icon"
+            android:src="@drawable/hotel_icon"
             app:layout_constraintBottom_toBottomOf="@+id/hotelEditText"
             app:layout_constraintTop_toTopOf="@+id/hotelEditText"
             app:layout_constraintStart_toStartOf="parent"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toStartOf="@+id/hotelEditText" />
 
-        <EditText
+        <TextView
             android:id="@+id/hotelEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

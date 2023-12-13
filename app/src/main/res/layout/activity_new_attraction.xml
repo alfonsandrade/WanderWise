@@ -17,7 +17,7 @@
         android:inputType="textPersonName"
         android:background="@drawable/edittext_underline"
         android:padding="12dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textColorHint="@color/light_gray"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
