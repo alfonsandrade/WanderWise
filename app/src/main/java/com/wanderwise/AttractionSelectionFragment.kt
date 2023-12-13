@@ -165,7 +165,7 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
             popup.inflate(R.menu.trip_brief_popup)
 
             // Fills up the popup menu with the trip's information
-            popup.menu.findItem(R.id.tripName).title = (resources.getString(R.string.trip_name_two_dots) + " " + localCity.name)
+            popup.menu.findItem(R.id.tripName).title = (resources.getString(R.string.cityName) + " " + localCity.name)
             popup.menu.findItem(R.id.tripStartDate).title = (resources.getString(R.string.from_two_dots) + " " + localCity.fromDateStr)
             popup.menu.findItem(R.id.tripEndDate).title = (resources.getString(R.string.to_two_dots) + " " + localCity.toDateStr)
 

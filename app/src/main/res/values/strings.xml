@@ -50,4 +50,6 @@
     <string name="take_picture">Take picture</string>
     <string name="add_picture_from_gallery">Add picture from gallery</string>
 
+    <string name="cityName">City Name:</string>
+
 </resources>

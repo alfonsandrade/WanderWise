@@ -60,7 +60,7 @@ class NewAttractionFragment : Fragment(R.layout.activity_new_attraction) {
         }
 
         cancelButton.setOnClickListener {
-            findNavController().navigate(R.id.action_to_attraction_selection)
+            findNavController().popBackStack()
         }
     }
 

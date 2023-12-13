@@ -23,6 +23,7 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
         val fromDate:    EditText = view.findViewById(R.id.fromDate)
         val toDate:      EditText = view.findViewById(R.id.toDate)
         val description: EditText = view.findViewById(R.id.descriptionText)
+        val cancelButton:   ImageButton = view.findViewById(R.id.back_button)
         val userId:      String   = arguments?.getString("userId") ?: return
 
         submitBtn.isClickable = true
@@ -39,6 +40,10 @@ class NewTripFragment : Fragment(R.layout.activity_new_trip) {
 
                 saveTripToFirebase(newTrip)
             }
+        }
+
+        cancelButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

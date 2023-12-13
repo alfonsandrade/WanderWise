@@ -46,6 +46,10 @@ class NewCityFragment : Fragment(R.layout.activity_new_city){
                 saveCityToFirebase(newCity)
             }
         }
+        val cancelButton:   ImageButton = view.findViewById(R.id.back_button)
+        cancelButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_hotel_fragment)
                 as AutocompleteSupportFragment
