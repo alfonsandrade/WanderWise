@@ -15,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.database.*
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -132,6 +133,21 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
                         attractionList.remove(selectedAttraction)
                         (listView.adapter as? AttractionAdapter)?.notifyDataSetChanged()
                         database.child(selectedAttraction.attractionId).removeValue()
+                    }
+                    R.id.guideMe -> {
+                        val hotelName = arguments?.getString("hotelName")
+                        val hotelLat = arguments?.getDouble("hotelLat")
+                        val hotelLng = arguments?.getDouble("hotelLng")
+                        val hotelLatLng = hotelLat?.let { lat ->
+                            hotelLng?.let { lng -> LatLng(lat, lng) }
+                        }
+
+                        val bundle = bundleOf(
+                            "selectedAttraction" to selectedAttraction,
+                            "hotelName" to hotelName,
+                            "hotelLatLng" to hotelLatLng
+                        )
+                        findNavController().navigate(R.id.action_to_guideMe, bundle)
                     }
                 }
                 true

@@ -36,6 +36,7 @@
     <string name="name">Name</string>
 
     <!-- Attraction Editing -->
+    <string name="guideMe">Guide Me</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="attraction_name_hint">Search for your attraction</string>

@@ -30,4 +30,5 @@
     <color name="light_blue">#007AFF</color> <!-- Light blue for buttons, inspired by Apple's design -->
     <color name="ripple_color">#66007AFF</color>
     <color name="cyan">#1ABC9C</color>
+    <color name="map_polyline_red">#FF0000</color>
 </resources>
