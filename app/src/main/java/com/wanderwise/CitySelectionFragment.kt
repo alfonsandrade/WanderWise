@@ -44,6 +44,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
         cityList = ArrayList()
         val adapter = CityAdapter(requireContext(), cityList)
         listView.adapter = adapter
+
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedCity = cityList[position]
             val bundle = bundleOf(

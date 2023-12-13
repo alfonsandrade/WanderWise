@@ -93,7 +93,6 @@ dependencies {
     implementation ("com.google.android.libraries.places:places:2.7.0")
     implementation ("com.google.maps.android:android-maps-utils:2.2.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
-
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-storage:20.3.0")
 

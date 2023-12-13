@@ -1,4 +1,6 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,43 +22,13 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <ImageButton
-        android:id="@+id/tripBriefBtn"
-        style="@style/CircularButtonStyle"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:src="@drawable/three_outline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/addActivityBtn"
-        style="@style/CircularButtonStyle"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:src="@drawable/add_circle_outline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/hotelInnText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hotel_inn_two_dots"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/addActivityBtn"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/hotelBtnLayout"
+        android:id="@+id/hotelBriefLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:background="@drawable/rounded_background"
-        app:layout_constraintTop_toBottomOf="@id/hotelInnText"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:clickable="true">
@@ -78,10 +50,8 @@
             android:id="@+id/hotelEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/add_your_stay"
             android:background="@drawable/edittext_background"
             android:padding="12dp"
-            android:textColorHint="@color/light_gray"
             android:textColor="@android:color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,27 +59,57 @@
             android:clickable="true"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/planningText"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/attractionBriefLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/planning_two_dots"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/hotelBtnLayout"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_background"
+        android:clickable="true"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hotelBriefLayout">
 
-    <ListView
-        android:id="@+id/attractionsListView"
+        <ImageView
+            android:id="@+id/attractionIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:clickable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_login_screen"
+            app:layout_constraintBottom_toBottomOf="@id/attractionEditText"
+            app:layout_constraintEnd_toStartOf="@id/attractionEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/attractionEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_background"
+            android:clickable="true"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/attractionIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/planningText"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp"
-        tools:listitem="@layout/attraction_list_item" />
+        app:layout_constraintTop_toBottomOf="@id/attractionBriefLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
