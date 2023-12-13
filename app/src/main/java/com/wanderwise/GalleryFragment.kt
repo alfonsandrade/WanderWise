@@ -71,7 +71,6 @@ class GalleryFragment : Fragment(R.layout.activity_camera) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     val selectedImage = data?.data
-                    val imageBitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, selectedImage)
                     val storage = FirebaseStorage.getInstance().reference.child("images")
                     storage.child(attraction.attractionId).putFile(selectedImage!!).addOnSuccessListener { taskSnapshot ->
                         taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener { url ->
