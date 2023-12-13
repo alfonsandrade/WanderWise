@@ -14,16 +14,20 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.database.*
 import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
 
 class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_selection) {
     private var cityId: String? = null
+    private var userPermission: String? = null
     private lateinit var listView: ListView
     private lateinit var database: DatabaseReference
     private var attractionList: ArrayList<Attraction> = ArrayList()
     private var attractionsEventListener: ValueEventListener? = null
+
+    private val CAMERA_PERMISSION_LVL: String = "2"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,8 +35,9 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
         database = FirebaseDatabase.getInstance().reference.child("attractions")
 
         setupListView()
-        savedInstanceState?.getString("cityId")?.let {
-            cityId = it
+        savedInstanceState?.let { bundle ->
+            cityId = bundle.getString("cityId")
+            userPermission = bundle.getString("userPermission")
         } ?: loadAttractionsForCityFromArguments()
 
         val addNewAttractionButton: ImageButton = view.findViewById(R.id.addActivityBtn)
@@ -57,6 +62,7 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         cityId?.let { outState.putString("cityId", it) }
+        userPermission?.let { outState.putString("userPermission", it) }
     }
 
     private fun setupListView() {
@@ -84,12 +90,20 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.takePicture -> {
-                        val bundle = bundleOf("selectedAttraction" to selectedAttraction)
-                        findNavController().navigate(R.id.action_to_camera, bundle)
+                        if (userPermission!! >= CAMERA_PERMISSION_LVL) {
+                            val bundle = bundleOf("selectedAttraction" to selectedAttraction)
+                            findNavController().navigate(R.id.action_to_camera, bundle)
+                        } else {
+                            Toast.makeText(requireContext(), "Only available for user permission 2.\nYour permission: $userPermission", Toast.LENGTH_LONG).show()
+                        }
                     }
                     R.id.addPicture -> {
-                        val bundle = bundleOf("selectedAttraction" to selectedAttraction)
-                        findNavController().navigate(R.id.action_to_gallery, bundle)
+                        if (userPermission!! >= CAMERA_PERMISSION_LVL) {
+                            val bundle = bundleOf("selectedAttraction" to selectedAttraction)
+                            findNavController().navigate(R.id.action_to_gallery, bundle)
+                        } else {
+                            Toast.makeText(requireContext(), "Only available for user permission 2.\nYour permission: $userPermission", Toast.LENGTH_LONG).show()
+                        }
                     }
                     R.id.editAttraction -> {
                         val bundle = bundleOf("selectedAttraction" to selectedAttraction)
@@ -113,6 +127,9 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
         arguments?.getParcelable<City>("selectedCity")?.let {
             cityId = it.cityId
             loadAttractionsForCity(cityId!!)
+        }
+        arguments?.getString("userPermission")?.let {
+            userPermission = it
         }
     }
 

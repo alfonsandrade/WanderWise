@@ -20,6 +20,7 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     private lateinit var listView: ListView
     private lateinit var tripsEventListener: ValueEventListener
     private lateinit var userId: String
+    private lateinit var userPermission: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,8 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
         listView.isClickable = true
         listView.setOnItemClickListener { parent, view, position, id ->
             val selectedTrip = tripList[position]
-            val bundle = bundleOf("selectedTrip" to selectedTrip)
+            val bundle = bundleOf("selectedTrip" to selectedTrip,
+                                  "userPermission" to userPermission)
             findNavController().navigate(R.id.action_to_citySelection, bundle)
         }
 
@@ -58,6 +60,7 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
     }
     private fun loadTripsForUserFromFirebase() {
         userId = arguments?.getString("userId") ?: return
+        userPermission = arguments?.getString("userPermission") ?: return
 
         tripsEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

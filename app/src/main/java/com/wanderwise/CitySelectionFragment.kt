@@ -25,6 +25,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
     private lateinit var cityList: ArrayList<City?>
     private lateinit var citiesEventListener: ValueEventListener
     private lateinit var locationUtils: LocationUtils
+    private lateinit var userPermission: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +50,8 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
                 "selectedCity" to selectedCity,
                 "hotelName" to selectedCity?.hotelName,
                 "hotelLat" to selectedCity?.hotelLat,
-                "hotelLng" to selectedCity?.hotelLng
+                "hotelLng" to selectedCity?.hotelLng,
+                "userPermission" to userPermission
             )
             findNavController().navigate(R.id.action_to_attraction_selection, bundle)
         }
@@ -78,6 +80,10 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
             tripId = it.tripId
             loadCitiesForTrip(tripId)
         } ?: Log.e("CitySelectionFragment", "Trip not found in arguments")
+
+        arguments?.getString("userPermission")?.let {
+            userPermission = it
+        } ?: Log.e("CitySelectionFragment", "User permission not found in arguments")
     }
 
     private fun loadCitiesForTrip(tripId: String) {

@@ -45,7 +45,8 @@ class LoginScreenFragment : Fragment(R.layout.activity_login) {
                 if (snapshot.exists()) {
                     val user = snapshot.children.iterator().next()
                     if (user.child("password").value == password) {
-                        val bundle = bundleOf("userId" to user.child("userId").value.toString())
+                        val bundle = bundleOf("userId" to user.child("userId").value.toString(),
+                                              "userPermission" to user.child("permissionLvl").value.toString())
                         findNavController().navigate(R.id.action_to_tripSelection, bundle)
                     }
                     else {
