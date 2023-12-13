@@ -12,22 +12,28 @@ data class Attraction(
     var cityId: String = "",
     var name: String = "",
     var isChecked: Boolean = false,
-    var imageUrl: String = ""
+    var imageUrl: String = "",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0
 ) : Parcelable {
     constructor(parcel: android.os.Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readDouble()!!,
+        parcel.readDouble()!!
     )
-    constructor() : this("", "", "", false)
+    constructor() : this("", "", "", false, "", 0.0, 0.0)
     override fun writeToParcel(parcel: android.os.Parcel, flags: Int) {
         parcel.writeString(attractionId)
         parcel.writeString(cityId)
         parcel.writeString(name)
         parcel.writeByte(if (isChecked) 1 else 0)
         parcel.writeString(imageUrl)
+        parcel.writeDouble(latitude)
+        parcel.writeDouble(longitude)
     }
 
     override fun describeContents(): Int {
@@ -49,7 +55,9 @@ data class Attraction(
             cityId = this.cityId,
             name = this.name,
             isChecked = this.isChecked,
-            imageUrl = this.imageUrl
+            imageUrl = this.imageUrl,
+            latitude = this.latitude,
+            longitude = this.longitude
         )
     }
 
@@ -98,7 +106,9 @@ data class FirebaseAttraction(
     var cityId: String = "",
     var name: String = "",
     var isChecked: Boolean = false,
-    var imageUrl: String = ""
+    var imageUrl: String = "",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0
 ) {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -107,7 +117,9 @@ data class FirebaseAttraction(
             "cityId" to cityId,
             "name" to name,
             "isChecked" to isChecked,
-            "imageUrl" to imageUrl
+            "imageUrl" to imageUrl,
+            "latitude" to latitude,
+            "longitude" to longitude
         )
     }
     companion object {
@@ -117,7 +129,9 @@ data class FirebaseAttraction(
                 cityId = attraction.cityId,
                 name = attraction.name,
                 isChecked = attraction.isChecked,
-                imageUrl = attraction.imageUrl
+                imageUrl = attraction.imageUrl,
+                latitude = attraction.latitude,
+                longitude = attraction.longitude
             )
         }
     }
