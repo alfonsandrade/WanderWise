@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.os.bundleOf
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView

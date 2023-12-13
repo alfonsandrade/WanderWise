@@ -23,6 +23,7 @@
     <string name="hotel_inn_two_dots">Hotel/Inn:</string>
     <string name="add_your_stay">Add your stay</string>
     <string name="planning_two_dots">Planning:</string>
+    <string name="days">days</string>
 
     <!-- Login Screen -->
     <string name="login_icon_description">Login Screen Icon</string>

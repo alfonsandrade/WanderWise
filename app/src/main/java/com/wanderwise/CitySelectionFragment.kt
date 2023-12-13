@@ -7,16 +7,13 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Toast
+import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.database.*
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit;
 
 class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
     private lateinit var tripId: String
@@ -26,6 +23,9 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
     private lateinit var citiesEventListener: ValueEventListener
     private lateinit var locationUtils: LocationUtils
     private lateinit var userPermission: String
+    private lateinit var localTrip: Trip
+
+    private val DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
         locationUtils.requestLocationPermission()
         setupListView(view)
         setupAddCityButton(view)
-        testingLocation(view)
+        setupTripBriefButton(view)
         loadCitiesForTripFromArguments()
     }
 
@@ -65,13 +65,21 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
         }
     }
 
-    private fun testingLocation(view: View) {
-        val hamburguerBtn: ImageButton = view.findViewById(R.id.tripBriefBtn)
-        hamburguerBtn.setOnClickListener {
-            locationUtils.getLocation { location ->
-                Toast.makeText(requireContext(), "Location: ${location.latitude}, ${location.longitude}", Toast.LENGTH_SHORT).show()
-                Log.d("CitySelectionFragment", "Location: ${location.latitude}, ${location.longitude}")
-            }
+    private fun setupTripBriefButton(view: View) {
+        val tripBriefBtn: ImageButton = view.findViewById(R.id.tripBriefBtn)
+        tripBriefBtn.setOnClickListener {
+            val popup = PopupMenu(requireContext(), tripBriefBtn)
+            popup.inflate(R.menu.trip_brief_popup)
+
+            // Fills up the popup menu with the trip's information
+            popup.menu.findItem(R.id.tripName).title = (resources.getString(R.string.trip_name_two_dots) + " " + localTrip.name)
+            popup.menu.findItem(R.id.tripStartDate).title = (resources.getString(R.string.from_two_dots) + " " + localTrip.fromDate?.format(DATE_FORMAT))
+            popup.menu.findItem(R.id.tripEndDate).title = (resources.getString(R.string.to_two_dots) + " " + localTrip.toDate?.format(DATE_FORMAT))
+
+            val duration = ChronoUnit.DAYS.between(localTrip.fromDate, localTrip.toDate)
+            popup.menu.findItem(R.id.duration).title = (resources.getString(R.string.duration_two_dots) + " " + duration.toString() + " " + resources.getString(R.string.days))
+
+            popup.show()
         }
     }
 
@@ -100,6 +108,24 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
             }
         }
         database.orderByChild("tripId").equalTo(tripId).addValueEventListener(citiesEventListener)
+
+        // Gets the trip class from firebase using the tripId
+        val localDatabase = FirebaseDatabase.getInstance().reference.child("trips").child(tripId)
+        localDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Get the value of the specific child
+                    val value = dataSnapshot.getValue(FirebaseTrip::class.java)
+                    localTrip = Trip.fromFirebaseTrip(value!!)
+                } else {
+                    Log.w("CitySelectionFragment", "loadPost:onTripNotFound")
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w("CitySelectionFragment", "loadPost:onCancelled", databaseError.toException())
+            }
+        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
