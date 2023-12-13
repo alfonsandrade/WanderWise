@@ -21,7 +21,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageButton
-        android:id="@+id/tripBriefBtn"
+        android:id="@+id/briefBtn"
         style="@style/CircularButtonStyle"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"

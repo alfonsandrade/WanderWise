@@ -85,6 +85,7 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
 
     private fun loadCitiesForTripFromArguments() {
         arguments?.getParcelable<Trip>("selectedTrip")?.let {
+            localTrip = it
             tripId = it.tripId
             loadCitiesForTrip(tripId)
         } ?: Log.e("CitySelectionFragment", "Trip not found in arguments")
@@ -108,24 +109,6 @@ class CitySelectionFragment : Fragment(R.layout.activity_city_selection){
             }
         }
         database.orderByChild("tripId").equalTo(tripId).addValueEventListener(citiesEventListener)
-
-        // Gets the trip class from firebase using the tripId
-        val localDatabase = FirebaseDatabase.getInstance().reference.child("trips").child(tripId)
-        localDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Get the value of the specific child
-                    val value = dataSnapshot.getValue(FirebaseTrip::class.java)
-                    localTrip = Trip.fromFirebaseTrip(value!!)
-                } else {
-                    Log.w("CitySelectionFragment", "loadPost:onTripNotFound")
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.w("CitySelectionFragment", "loadPost:onCancelled", databaseError.toException())
-            }
-        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.os.bundleOf
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
@@ -15,6 +16,8 @@ import android.widget.Toast
 import com.google.firebase.database.*
 import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_selection) {
     private var cityId: String? = null
@@ -23,6 +26,7 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
     private lateinit var database: DatabaseReference
     private var attractionList: ArrayList<Attraction> = ArrayList()
     private var attractionsEventListener: ValueEventListener? = null
+    private lateinit var localCity: City
 
     private val CAMERA_PERMISSION_LVL: String = "2"
 
@@ -32,6 +36,8 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
         database = FirebaseDatabase.getInstance().reference.child("attractions")
 
         setupListView()
+        setupBriefButton(view)
+        
         savedInstanceState?.let { bundle ->
             cityId = bundle.getString("cityId")
             userPermission = bundle.getString("userPermission")
@@ -65,6 +71,22 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
     private fun setupListView() {
         val adapter = AttractionAdapter(requireContext(), attractionList)
         listView.adapter = adapter
+
+        if ((adapter.count % 2) == 1) {
+            val button: Button = Button(requireContext())
+            button.text = "Add a place to eat!"
+            button.background = resources.getDrawable(R.drawable.button_background, null)
+
+            button.setOnClickListener {
+                cityId?.let { cityId ->
+                    val bundle = bundleOf("cityId" to cityId)
+                    findNavController().navigate(R.id.action_to_new_attraction, bundle)
+                }
+            }
+
+            listView.addFooterView(button)
+            (listView.adapter as? AttractionAdapter)?.notifyDataSetChanged()
+        }
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val selectedAttraction = attractionList[position]
@@ -120,8 +142,29 @@ class AttractionSelectionFragment : Fragment(R.layout.activity_attraction_select
         }
     }
 
+    private fun setupBriefButton(view: View) {
+        val briefBtn: ImageButton = view.findViewById(R.id.briefBtn)
+        briefBtn.setOnClickListener {
+            val popup = PopupMenu(requireContext(), briefBtn)
+            popup.inflate(R.menu.trip_brief_popup)
+
+            // Fills up the popup menu with the trip's information
+            popup.menu.findItem(R.id.tripName).title = (resources.getString(R.string.trip_name_two_dots) + " " + localCity.name)
+            popup.menu.findItem(R.id.tripStartDate).title = (resources.getString(R.string.from_two_dots) + " " + localCity.fromDateStr)
+            popup.menu.findItem(R.id.tripEndDate).title = (resources.getString(R.string.to_two_dots) + " " + localCity.toDateStr)
+
+            val fromDate = localCity.fromDateStr?.let { LocalDate.parse(it, FirebaseTrip.DATE_FORMAT) }
+            val toDate = localCity.toDateStr?.let { LocalDate.parse(it, FirebaseTrip.DATE_FORMAT) }
+            val duration = ChronoUnit.DAYS.between(fromDate, toDate)
+            popup.menu.findItem(R.id.duration).title = (resources.getString(R.string.duration_two_dots) + " " + duration.toString() + " " + resources.getString(R.string.days))
+
+            popup.show()
+        }
+    }
+    
     private fun loadAttractionsForCityFromArguments() {
         arguments?.getParcelable<City>("selectedCity")?.let {
+            localCity = it
             cityId = it.cityId
             loadAttractionsForCity(cityId!!)
         }
