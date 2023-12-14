@@ -7,13 +7,13 @@ import android.widget.ListView
 // Firebase module to encapsulate Firebase-related logic
 class Firebase {
     private var tripTable: DatabaseReference = FirebaseDatabase.getInstance().
-    getReferenceFromUrl("https://wanderwise-firebase-default-rtdb.firebaseio.com/").
+    getReferenceFromUrl("FirebaseReference").
     child("trips")
     private var cityTable: DatabaseReference = FirebaseDatabase.getInstance().
-    getReferenceFromUrl("https://wanderwise-firebase-default-rtdb.firebaseio.com/").
+    getReferenceFromUrl("FirebaseReference").
     child("cities")
     private var attractionTable: DatabaseReference = FirebaseDatabase.getInstance().
-    getReferenceFromUrl("https://wanderwise-firebase-default-rtdb.firebaseio.com/").
+    getReferenceFromUrl("FirebaseReference").
     child("attractions")
 
     fun storeTripToFirebase(trip: Trip) {

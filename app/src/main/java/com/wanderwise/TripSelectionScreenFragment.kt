@@ -24,7 +24,7 @@ class TripSelectionScreenFragment : Fragment(R.layout.activity_trip_selection) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        database = FirebaseDatabase.getInstance().getReferenceFromUrl("https://wanderwise-firebase-default-rtdb.firebaseio.com/").child("trips")
+        database = FirebaseDatabase.getInstance().getReferenceFromUrl("FirebaseReference").child("trips")
         tripList = ArrayList()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

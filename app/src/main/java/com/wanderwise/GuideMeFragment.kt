@@ -45,7 +45,7 @@ class GuideMeFragment : Fragment(R.layout.activity_guide_me), OnMapReadyCallback
     }
     private fun fetchAndDrawRoute(destination: LatLng) {
         val origin = hotelLatLng ?: LatLng(-34.0, 151.0)
-        val apiKey = "AIzaSyBNOnc1lrWobIGYCmHlyDGLEd3BtJQLLq8"
+        val apiKey = "API_KEY"
 
         val url = "https://maps.googleapis.com/maps/api/directions/json?" +
                 "origin=${origin.latitude},${origin.longitude}" +
